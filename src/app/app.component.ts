@@ -7,4 +7,21 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'courses-app';
+  userName = 'Iryna Shyrshova';
+  isLoggedIn: boolean = true;
+  infoTitle = 'Your list is empty';
+  infoText = 'Please use "Add New Course" button to add  your first course';
+
+  login() {
+    console.debug();
+    console.debug('login not implemented');
+  }
+
+  logout() {
+    console.debug('logout not implemented');
+  }
+
+  addNewCourse() {
+    console.debug('addNewCourse not implemented');
+  }
 }

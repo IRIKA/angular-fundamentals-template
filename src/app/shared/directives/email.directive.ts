@@ -1,4 +1,5 @@
 import { Directive } from "@angular/core";
+import { AbstractControl, ValidationErrors } from "@angular/forms";
 
 @Directive({
     selector: '[emailValidator]',
@@ -6,4 +7,10 @@ import { Directive } from "@angular/core";
 })
 export class EmailValidatorDirective {
     // Add your code here
+    validate(control: AbstractControl): ValidationErrors | null {
+        throw new Error("Method not implemented.");
+    }
+    registerOnValidatorChange?(fn: () => void): void {
+        throw new Error("Method not implemented.");
+    }
 }

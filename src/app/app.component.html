@@ -1,10 +1,23 @@
-<app-header></app-header>
+<app-header>
+  <div class="user-info" *ngIf="isLoggedIn; else showLogin">
+    <p class="user-name">{{userName}}</p>
+    <app-button buttonText="Logout" [iconName]="['fas', 'sign-out-alt']" (click)="logout()"></app-button>
+  </div>
+  <ng-template #showLogin>
+    <app-button buttonText="Login" [iconName]="['fas', 'sign-in-alt']" (click)="login()"></app-button>
+  </ng-template>
+</app-header>
 <div class="app-root">
   <!-- Search component -->
   <!--<app-search></app-search>-->
 
   <!-- Info component -->
-  <!--<app-info></app-info>-->
+  <app-info [title]="infoTitle" [text]="infoText">
+    <app-button buttonText="Add new course" [iconName]="['fas', 'plus']" (click)="addNewCourse()"></app-button>
+  </app-info>
+
+  <!-- Courses component -->
+  <app-courses></app-courses>
 
   <!-- Course Card component -->
   <!--<app-course-card></app-course-card>-->

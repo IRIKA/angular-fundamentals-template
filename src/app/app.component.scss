@@ -1,8 +1,24 @@
 .app-root {
-  width: 100%;
+  //width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   padding: 24px;
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  .user-name {
+    display: flex;
+    height: 20px;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 20px;
+    text-align: right;
+    color: #333E48;
+  }
 }

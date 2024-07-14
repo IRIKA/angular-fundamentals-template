@@ -1,0 +1,5 @@
+<div class="course-list">
+    <app-course-card *ngFor="let course of courses" [course]="course" [editable]="editable"
+        (show)="onShowCourse(course)" (edit)="onEditCourse(course)" (delete)="onDeleteCourse(course)">
+    </app-course-card>
+</div>
