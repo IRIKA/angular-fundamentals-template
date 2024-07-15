@@ -11,13 +11,14 @@
   <!-- Search component -->
   <!--<app-search></app-search>-->
 
-  <!-- Info component -->
-  <app-info [title]="infoTitle" [text]="infoText">
-    <app-button buttonText="Add new course" [iconName]="['fas', 'plus']" (click)="addNewCourse()"></app-button>
-  </app-info>
-
   <!-- Courses component -->
-  <app-courses></app-courses>
+  <app-courses *ngIf="isLoggedIn && isCourses; else infoComponent" [isLoggedIn]="isLoggedIn"></app-courses>
+
+  <!-- Info component -->
+  <ng-template #infoComponent><app-info [title]="infoTitle" [text]="infoText">
+      <app-button buttonText="Add new course" [iconName]="['fas', 'plus']" (click)="addNewCourse()"></app-button>
+    </app-info>
+  </ng-template>
 
   <!-- Course Card component -->
   <!--<app-course-card></app-course-card>-->

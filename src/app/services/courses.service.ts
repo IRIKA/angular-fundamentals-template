@@ -1,9 +1,14 @@
 import { Injectable } from '@angular/core';
+import { Author } from '@app/models/author.model';
+import { Course } from '@app/models/course.model';
+import { mockedAuthorsList } from '@app/shared/mocks/mock';
 
 @Injectable({
     providedIn: 'root'
 })
 export class CoursesService {
+    authors: Author[] = mockedAuthorsList;
+
     getAll() {
         // Add your code here
     }
@@ -28,8 +33,12 @@ export class CoursesService {
         // Add your code here
     }
 
-    getAllAuthors() {
+    getAllAuthors(course: Course): string {
         // Add your code here
+        return course.authors.map(id => {
+            const author = this.authors.find(author => author.id === id);
+            return author ? author.name : null;
+        }).join(', ');
     }
 
     createAuthor(name: string) {

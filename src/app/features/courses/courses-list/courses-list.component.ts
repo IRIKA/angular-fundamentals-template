@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { Course } from '@shared/models/course.model';
+import { Course } from '@app/models/course.model';
 
 @Component({
   selector: 'app-courses-list',
@@ -7,6 +7,9 @@ import { Course } from '@shared/models/course.model';
   styleUrls: ['./courses-list.component.scss']
 })
 export class CoursesListComponent {
+  showCourseInfo = false;
+  selectedCourse!: Course;
+
   @Input() courses: Course[] = [];
   @Input() editable = false;
 
@@ -15,6 +18,8 @@ export class CoursesListComponent {
   @Output() deleteCourse = new EventEmitter<Course>();
 
   onShowCourse(course: Course) {
+    this.showCourseInfo = true;
+    this.selectedCourse = course;
     this.showCourse.emit(course);
   }
 
@@ -24,5 +29,9 @@ export class CoursesListComponent {
 
   onDeleteCourse(course: Course) {
     this.deleteCourse.emit(course);
+  }
+
+  onBack() {
+    this.showCourseInfo = false;
   }
 }

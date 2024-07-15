@@ -1,14 +1,17 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 
-import { Course } from '@shared/models/course.model';
-import { mockedAuthorsList } from '@shared/mocks/mock';
+import { Course } from '@app/models/course.model';
+import { CoursesService } from '@app/services/courses.service';
 
 @Component({
   selector: 'app-course-card',
   templateUrl: './course-card.component.html',
   styleUrls: ['./course-card.component.scss']
 })
-export class CourseCardComponent {
+export class CourseCardComponent implements OnInit {
+  authors = '';
+  constructor(private coursesService: CoursesService) { }
+
   @Input() course!: Course;
   @Input() editable = false;
 
@@ -16,11 +19,8 @@ export class CourseCardComponent {
   @Output() edit = new EventEmitter<Course>();
   @Output() delete = new EventEmitter<Course>();
 
-  get authorNames(): string {
-    return this.course.authors.map(id => {
-      const author = mockedAuthorsList.find(author => author.id === id);
-      return author ? author.name : null;
-    }).join(', ');
+  ngOnInit() {
+    this.authors = this.coursesService.getAllAuthors(this.course);
   }
 
   showCourse(course: Course) {

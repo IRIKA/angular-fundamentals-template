@@ -1,5 +1,9 @@
-<div class="course-list">
+<div *ngIf="!showCourseInfo" class="course-list">
     <app-course-card *ngFor="let course of courses" [course]="course" [editable]="editable"
         (show)="onShowCourse(course)" (edit)="onEditCourse(course)" (delete)="onDeleteCourse(course)">
     </app-course-card>
+</div>
+
+<div *ngIf="showCourseInfo">
+    <app-course-info [course]="selectedCourse" (back)="onBack()"></app-course-info>
 </div>

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { mockedCoursesList } from '@shared/mocks/mock';
 
 @Component({
@@ -8,7 +8,7 @@ import { mockedCoursesList } from '@shared/mocks/mock';
 })
 export class CoursesComponent {
   mockedCoursesList = mockedCoursesList;
-  isLoggedIn: boolean = true;
+  @Input() isLoggedIn = false;
 
   showCourse(course: any) {
     console.debug('showCourse not implemented: ', course);

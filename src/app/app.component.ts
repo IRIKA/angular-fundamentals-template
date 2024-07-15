@@ -8,7 +8,8 @@ import { Component } from '@angular/core';
 export class AppComponent {
   title = 'courses-app';
   userName = 'Iryna Shyrshova';
-  isLoggedIn: boolean = true;
+  isLoggedIn = true;
+  isCourses = true;
   infoTitle = 'Your list is empty';
   infoText = 'Please use "Add New Course" button to add  your first course';
 
