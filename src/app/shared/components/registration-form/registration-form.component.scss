@@ -1,9 +1,18 @@
 @import 'src/app/shared/styles/styles';
 
+.registration-plate {
+  min-height: 477px;
+}
+
 .registration-form {
   width: 260px;
-  margin-top: 36px;
+  margin-top: 24px;
+  margin-bottom: 36px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+}
+
+input.error {
+  border-color: $color-red;
 }

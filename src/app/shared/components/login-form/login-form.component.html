@@ -1,5 +1,5 @@
 <h2 class="text-align-center">Login</h2>
-<div class="app-plate">
+<div class="app-plate  login-plate">
   <form #loginForm="ngForm" (ngSubmit)="onSubmit(loginForm)">
     <div class="login-form">
       <div>
@@ -36,7 +36,8 @@
           <app-button type="submit" buttonText="Login" [iconName]="['fas', 'sign-in-alt']"></app-button>
         </div>
         <div class="form__text">
-          If you don't have an account you may <strong>Registration</strong>
+          If you don't have an account you may <strong class="cursor-pointer"
+            (click)="onRegistrationSelected()">Registration</strong>
         </div>
       </div>
     </div>

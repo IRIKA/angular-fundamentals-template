@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Output, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 
 @Component({
@@ -14,6 +14,7 @@ export class LoginFormComponent {
   passwordModel = '';
 
   @ViewChild("loginForm") public loginForm!: NgForm;
+  @Output() registrationSelected = new EventEmitter<boolean>();
 
   //Use the names `email` and `password` for form controls.
   onInput(fieldName: string) {
@@ -24,5 +25,9 @@ export class LoginFormComponent {
     if (form.valid) {
       console.debug('Form Submitted!', form.value);
     }
+  }
+
+  onRegistrationSelected() {
+    this.registrationSelected.emit(true);
   }
 }

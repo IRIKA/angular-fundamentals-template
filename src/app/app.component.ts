@@ -12,9 +12,18 @@ export class AppComponent {
   isCourses = true;
   infoTitle = 'Your list is empty';
   infoText = 'Please use "Add New Course" button to add  your first course';
+  isRegistrationSelected: boolean = false;
 
   login() {
     console.debug('login not implemented');
+  }
+
+  onRegistrationSelected(event: any) {
+    this.isRegistrationSelected = event;
+  }
+
+  onLoginSelected(event: any) {
+    this.isRegistrationSelected = !event;
   }
 
   logout() {

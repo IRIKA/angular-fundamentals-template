@@ -30,11 +30,15 @@
 
   <!-- Login Form component -->
   <ng-template #loginForm>
-    <app-login-form></app-login-form>
+    <div *ngIf="!isRegistrationSelected; else registrationForm">
+      <app-login-form (registrationSelected)="onRegistrationSelected($event)"></app-login-form>
+    </div>
   </ng-template>
 
   <!-- Login Form component -->
-  <!--<app-registration-form></app-registration-form>-->
+  <ng-template #registrationForm>
+    <app-registration-form (loginSelected)="onLoginSelected($event)"></app-registration-form>
+  </ng-template>
 
   <!-- Login Form component -->
   <!--<app-course-form></app-course-form>-->

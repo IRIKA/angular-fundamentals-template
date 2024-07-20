@@ -1,9 +1,13 @@
 @import 'src/app/shared/styles/styles.scss';
 
+.login-plate {
+  min-height: 477px;
+}
+
 .login-form {
   box-sizing: border-box;
   width: 286px;
-  margin-top: 36px;
+  margin-top: 48px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
