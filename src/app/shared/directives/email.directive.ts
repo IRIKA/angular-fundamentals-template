@@ -1,16 +1,21 @@
 import { Directive } from "@angular/core";
-import { AbstractControl, ValidationErrors } from "@angular/forms";
+import { AbstractControl, NG_VALIDATORS, Validator, ValidationErrors } from "@angular/forms";
 
 @Directive({
     selector: '[emailValidator]',
-    providers: [/*Add your code here*/]
+    providers: [{
+        provide: NG_VALIDATORS,
+        useExisting: EmailValidatorDirective,
+        multi: true,
+    },]
 })
-export class EmailValidatorDirective {
+export class EmailValidatorDirective implements Validator {
     // Add your code here
     validate(control: AbstractControl): ValidationErrors | null {
-        throw new Error("Method not implemented.");
-    }
-    registerOnValidatorChange?(fn: () => void): void {
-        throw new Error("Method not implemented.");
+        const value = control.value;
+        const emailRegex = new RegExp('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$', "i");
+        const valid = emailRegex.test(value);
+
+        return valid ? null : { email: true };
     }
 }

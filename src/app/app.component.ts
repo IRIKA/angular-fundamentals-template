@@ -14,7 +14,6 @@ export class AppComponent {
   infoText = 'Please use "Add New Course" button to add  your first course';
 
   login() {
-    console.debug();
     console.debug('login not implemented');
   }
 
