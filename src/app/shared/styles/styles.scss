@@ -3,7 +3,7 @@ $color-gray: #CFCFCF;
 $color-red: #FF0000;
 
 .app-plate {
-    width: 100%;
+    width: 585px;
     min-height: 477px;
     background-color: $color-white;
     border: 1px solid $color-gray;
@@ -35,7 +35,7 @@ $color-red: #FF0000;
     &__text {
         text-align: center;
         margin-top: 38px;
-      flex-wrap: wrap;
+        flex-wrap: wrap;
     }
 }
 

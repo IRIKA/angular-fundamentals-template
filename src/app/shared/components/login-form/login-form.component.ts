@@ -7,6 +7,22 @@ import { NgForm } from '@angular/forms';
   styleUrls: ['./login-form.component.scss'],
 })
 export class LoginFormComponent {
+  email = '';
+  password = '';
+  formSubmitted = false;
+  startedTyping: { [key: string]: boolean } = {};
+  passwordModel = '';
+
   @ViewChild("loginForm") public loginForm!: NgForm;
+
   //Use the names `email` and `password` for form controls.
+  onInput(fieldName: string) {
+    this.startedTyping[fieldName] = true;
+  }
+
+  onSubmit(form: NgForm) {
+    if (form.valid) {
+      console.debug('Form Submitted!', form.value);
+    }
+  }
 }

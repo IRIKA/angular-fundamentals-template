@@ -1,9 +1,26 @@
 @import 'src/app/shared/styles/styles.scss';
 
 .login-form {
-  width: 260px;
+  box-sizing: border-box;
+  width: 286px;
   margin-top: 36px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+}
+
+input.touched:invalid {
+  border-color: $color-red;
+}
+
+.input-wrapper {
+  position: relative;
+}
+
+.password-toggle-icon {
+  position: absolute;
+  top: 35%;
+  right: 16px;
+  font-size: 24px;
+  cursor: pointer;
 }

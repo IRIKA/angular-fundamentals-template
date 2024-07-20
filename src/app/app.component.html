@@ -11,20 +11,27 @@
   <!-- Search component -->
   <!--<app-search></app-search>-->
 
-  <!-- Courses component -->
-  <app-courses *ngIf="isLoggedIn && isCourses; else infoComponent" [isLoggedIn]="isLoggedIn"></app-courses>
+  <ng-container *ngIf="isLoggedIn; else loginForm">
 
-  <!-- Info component -->
-  <ng-template #infoComponent><app-info [title]="infoTitle" [text]="infoText">
-      <app-button buttonText="Add new course" [iconName]="['fas', 'plus']" (click)="addNewCourse()"></app-button>
-    </app-info>
-  </ng-template>
+    <!-- Courses component -->
+    <app-courses *ngIf="isCourses; else infoComponent" [isLoggedIn]="isLoggedIn"></app-courses>
+
+    <!-- Info component -->
+    <ng-template #infoComponent>
+      <app-info [title]="infoTitle" [text]="infoText">
+        <app-button buttonText="Add new course" [iconName]="['fas', 'plus']" (click)="addNewCourse()"></app-button>
+      </app-info>
+    </ng-template>
+
+  </ng-container>
 
   <!-- Course Card component -->
   <!--<app-course-card></app-course-card>-->
 
   <!-- Login Form component -->
-  <!--<app-login-form></app-login-form>-->
+  <ng-template #loginForm>
+    <app-login-form></app-login-form>
+  </ng-template>
 
   <!-- Login Form component -->
   <!--<app-registration-form></app-registration-form>-->
