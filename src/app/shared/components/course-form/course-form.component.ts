@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { v4 as uuidv4 } from 'uuid';
 import {
   AbstractControl,
   FormArray,
@@ -7,6 +8,7 @@ import {
 } from '@angular/forms';
 import { FaIconLibrary } from '@fortawesome/angular-fontawesome';
 import { fas } from '@fortawesome/free-solid-svg-icons';
+import { CoursesStoreService } from '@app/services/courses-store.service';
 
 @Component({
   selector: 'app-course-form',
@@ -14,20 +16,34 @@ import { fas } from '@fortawesome/free-solid-svg-icons';
   styleUrls: ['./course-form.component.scss'],
 })
 export class CourseFormComponent implements OnInit {
-  constructor(public fb: FormBuilder, public library: FaIconLibrary) {
+  constructor(
+    private coursesStoreService: CoursesStoreService,
+    public fb: FormBuilder,
+    public library: FaIconLibrary) {
     library.addIconPacks(fas);
   }
   courseForm!: FormGroup;
   // Use the names `title`, `description`, `author`, 'authors' (for authors list), `duration` for the form controls.
 
   ngOnInit() {
+    const authorsFromService = this.coursesStoreService.getAllAuthors();
+    const authorFormGroups = authorsFromService.map(author =>
+      this.fb.group({
+        id: [author.id, Validators.required],
+        name: [author.name, [Validators.required, Validators.minLength(2), Validators.pattern('^[a-zA-Z0-9]+$')]]
+      })
+    );
+
     this.courseForm = this.fb.group({
       title: ['', [Validators.required, Validators.minLength(2)]],
       description: ['', [Validators.required, Validators.minLength(20)]],
       duration: ['', this.durationValidator],
-      author: ['', [Validators.required, Validators.minLength(2), Validators.pattern('^[a-zA-Z0-9]+$')]],
-      authors: this.fb.array(['John Doe', 'Jane Smith', 'Bob Johnson']),
-      courseAuthors: this.fb.array(['Brazil Evance', 'Deny Devito'])
+      author: this.fb.group({
+        id: ['', Validators.required],
+        name: ['', [Validators.required, Validators.minLength(2), Validators.pattern('^[a-zA-Z0-9]+$')]]
+      }),
+      authors: this.fb.array(authorFormGroups),
+      courseAuthors: this.fb.array([])
     });
   }
 
@@ -92,10 +108,15 @@ export class CourseFormComponent implements OnInit {
   }
 
   onCreateAuthor() {
-    const authorName = this.authorControl?.value;
+    const authorName = this.authorControl?.get('name')?.value;
     if (authorName && authorName.trim().length >= 2) {
-      this.authors.push(this.fb.control(authorName));
-      this.authorControl?.reset();
+      const newauthorId = uuidv4();
+      const newAuthor = this.fb.group({
+        id: newauthorId,
+        name: authorName
+      });
+      this.authors.push(newAuthor);
+      this.courseForm.get('author.name')?.reset();
     }
   }
 

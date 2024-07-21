@@ -45,9 +45,9 @@
           <div class=" form__control">
 
             <label for="author">Author name</label>
-            <div class="course__flex">
+            <div formGroupName="author" class="course__flex">
               <!--Use the name `author` for the form control.-->
-              <input type="text" id="author" formControlName="author" placeholder="Input Author Name" />
+              <input type="text" id="author" formControlName="name" placeholder="Input Author Name" />
               <app-button id="createAuthor" buttonText="Create author" [iconName]="['fas', 'plus']"
                 (click)="onCreateAuthor()"></app-button>
             </div>
@@ -60,7 +60,7 @@
               <!--Use the name `authors` for the form array.-->
               <h4>Authors list</h4>
               <div *ngFor="let author of authors.controls; let i = index">
-                {{ author.value }}
+                {{ author.value.name }}
                 <fa-icon [icon]="['fas', 'plus']" (click)="addCourseAuthor(i)"></fa-icon>
               </div>
             </div>
@@ -74,7 +74,7 @@
             <div>Authors list is empty</div>
           </div>
           <div *ngFor="let author of courseAuthors.controls; let i = index">
-            {{ author.value }}
+            {{ author.value.name }}
             <fa-icon [icon]="['fas', 'trash-alt']" (click)="removeCourseAuthor(i)"></fa-icon>
           </div>
         </div>

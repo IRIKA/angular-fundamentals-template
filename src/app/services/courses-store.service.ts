@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
+import { mockedAuthorsList } from '@app/shared/mocks/mock';
 
 @Injectable({
     providedIn: 'root'
 })
 export class CoursesStoreService {
-    getAll(){
+    getAll() {
         // Add your code here
     }
 
@@ -29,7 +30,7 @@ export class CoursesStoreService {
     }
 
     getAllAuthors() {
-        // Add your code here
+        return mockedAuthorsList;
     }
 
     createAuthor(name: string) {
