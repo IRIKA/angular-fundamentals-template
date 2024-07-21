@@ -51,10 +51,10 @@
               <app-button id="createAuthor" buttonText="Create author" [iconName]="['fas', 'plus']"
                 (click)="onCreateAuthor()"></app-button>
             </div>
-            <span id="dauthorErrorLengthMessage" class="text-danger">{{ getMinLengthError(descriptionControl,
-              'Description') }}</span>
-            <span id="authorErrorMessage" *ngIf="authorControl?.invalid">New author should contain only latin letters
-              and numbers.</span>
+            <span id="authorErrorLengthMessage" class="text-danger" *ngIf="createAuthorClicked">{{
+              getMinLengthError(authorControl?.get('name'), 'Author', false) }}</span>
+            <span id="authorErrorMessage" class="text-danger" *ngIf="createAuthorClicked">{{
+              getPatternError(authorControl?.get('name')) }}</span>
 
             <div class="course__authors">
               <!--Use the name `authors` for the form array.-->

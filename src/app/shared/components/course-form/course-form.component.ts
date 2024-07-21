@@ -16,6 +16,11 @@ import { CoursesStoreService } from '@app/services/courses-store.service';
   styleUrls: ['./course-form.component.scss'],
 })
 export class CourseFormComponent implements OnInit {
+  testFunction() {
+    console.debug('Method not implemented.');
+  }
+  createAuthorClicked = false;
+
   constructor(
     private coursesStoreService: CoursesStoreService,
     public fb: FormBuilder,
@@ -63,8 +68,12 @@ export class CourseFormComponent implements OnInit {
     return this.courseForm.get('author');
   }
 
-  isFieldInvalid(control: AbstractControl | null) {
-    return control?.invalid && (control?.dirty || control?.touched);
+  isFieldInvalid(control: AbstractControl | null, checkTouched: boolean = true) {
+    if (checkTouched) {
+      return control?.invalid && (control?.dirty || control?.touched);
+    } else {
+      return control?.invalid;
+    }
   }
 
   getRequiredFieldError(control: AbstractControl | null, fieldName: string) {
@@ -73,8 +82,16 @@ export class CourseFormComponent implements OnInit {
       : '';
   }
 
-  getMinLengthError(control: AbstractControl | null, fieldName: string) {
-    if (this.isFieldInvalid(control) && control?.hasError('minlength')) {
+  getMinLengthError(control?: AbstractControl | null, fieldName?: string, checkTouched: boolean = true) {
+
+    if (control == this.authorControl?.get('name')) {
+      console.debug('clicked-1', control?.value);
+    }
+
+    if (!control) {
+      return '';
+    }
+    if (this.isFieldInvalid(control, checkTouched) && control?.hasError('minlength')) {
       const requiredLength = control.errors?.['minlength'].requiredLength;
       return `${fieldName} should be at least ${requiredLength} characters.`;
     }
@@ -85,6 +102,22 @@ export class CourseFormComponent implements OnInit {
     return this.isFieldInvalid(control) && control?.hasError('invalidDuration')
       ? 'Duration cannot be less than 0.'
       : '';
+  }
+
+  getPatternError(control?: AbstractControl | null) {
+
+    console.debug('clicked-2');
+    if (!control || !this.createAuthorClicked) {
+      return '';
+    }
+    // console.debug('authorControl', control);
+    // console.debug('authorControl isFieldInvalid', this.isFieldInvalid(control));
+    // console.debug('authorControl hasError pattern', control?.hasError('pattern'));
+    // console.debug(this.authorControl?.get('name')?.value);
+    if (this.isFieldInvalid(control) && control?.hasError('pattern')) {
+      return 'New author should contain only latin letters and numbers.';
+    }
+    return '';
   }
 
   durationValidator(control: FormControl) {
@@ -108,7 +141,17 @@ export class CourseFormComponent implements OnInit {
   }
 
   onCreateAuthor() {
-    const authorName = this.authorControl?.get('name')?.value;
+
+    console.debug('clicked-3');
+
+    this.createAuthorClicked = true;
+    console.debug('this.createAuthorClicked', this.createAuthorClicked);
+
+    const authorNameControl = this.authorControl?.get('name');
+    if (authorNameControl?.hasError('pattern')) {
+      return;
+    }
+    const authorName = authorNameControl?.value;
     if (authorName && authorName.trim().length >= 2) {
       const newauthorId = uuidv4();
       const newAuthor = this.fb.group({
@@ -118,6 +161,7 @@ export class CourseFormComponent implements OnInit {
       this.authors.push(newAuthor);
       this.courseForm.get('author.name')?.reset();
     }
+    this.createAuthorClicked = false;
   }
 
   addCourseAuthor(index: number) {
