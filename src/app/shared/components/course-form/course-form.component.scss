@@ -1,7 +1,14 @@
 @import 'src/app/shared/styles/styles';
 
+.course-plate {
+  min-height: 825px;
+  min-width: 1104px;
+}
+
 .course {
- min-width: 60vw;
+  min-width: 60vw;
+  min-height: 825px;
+  margin-top: 48px;
 
   &__flex {
     display: flex;
@@ -21,9 +28,15 @@
     }
   }
 
+  &__listAuthors {
+    flex: 2;
+    margin-right: 50px;
+  }
+
   &__authors {
     margin-top: 8px;
     display: flex;
+    flex-direction: column;
 
     &-item {
       margin-right: 10px;
@@ -34,4 +47,10 @@
     margin-left: 4px;
     cursor: pointer;
   }
+}
+
+.author-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
 }

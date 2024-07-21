@@ -29,7 +29,19 @@ $color-red: #FF0000;
         margin-bottom: 24px;
     }
 
+    &__buttons {
+        display: flex;
+        justify-content: flex-end;
+
+        .app-button {
+            width: 215px;
+        }
+    }
+
     &__action {
+        display: flex;
+        justify-content: space-between;
+        width: 440px;
         margin-top: 24px;
     }
 
@@ -51,4 +63,9 @@ $color-red: #FF0000;
 
 .cursor-pointer {
     cursor: pointer;
+}
+
+input.error,
+textarea.error {
+    border-color: $color-red;
 }

@@ -1,6 +1,6 @@
 <h2 class="text-align-center">Registration</h2>
 <div class="app-plate registration-plate">
-  <div class="registration-form" [formGroup]="registrationForm" (ngSubmit)="onSubmit()">
+  <form class="registration-form" [formGroup]="registrationForm" (ngSubmit)="onSubmit()">
     <div>
       <div class="form__control">
         <label for="name">Name</label>
@@ -30,10 +30,11 @@
       </div>
     </div>
     <div class="form__action">
-      <app-button type="submit" buttonText="Login" [iconName]="['fas', 'sign-in-alt']"></app-button>
+      <app-button type="submit" buttonText="Login" [iconName]="['fas', 'sign-in-alt']"
+        [disabled]="!registrationForm.valid"></app-button>
     </div>
     <div class="form__text">
       If you have an account you may <strong class="cursor-pointer" (click)="onLoginSelected()">Login</strong>
     </div>
-  </div>
+  </form>
 </div>

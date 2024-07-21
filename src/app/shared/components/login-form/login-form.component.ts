@@ -22,8 +22,12 @@ export class LoginFormComponent {
   }
 
   onSubmit(form: NgForm) {
+    console.debug('Start submitting...');
+    this.formSubmitted = true;
     if (form.valid) {
       console.debug('Form Submitted!', form.value);
+    } else {
+      console.debug('There are errors');
     }
   }
 

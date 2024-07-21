@@ -30,11 +30,12 @@ textarea {
 }
 
 // input:invalid,
-textarea:invalid {
-  border-color: $color-red;
-}
+// invalid {
+//   border-color: $color-red;
+// }
 
-input:focus {
+input:focus,
+textarea:focus {
   outline: none;
 }
 

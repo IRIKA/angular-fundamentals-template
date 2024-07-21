@@ -1,6 +1,6 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-
+import { EmailValidatorDirective } from '@app/shared/directives/email.directive';
 @Component({
   selector: 'app-registration-form',
   templateUrl: './registration-form.component.html',
@@ -17,7 +17,7 @@ export class RegistrationFormComponent implements OnInit {
   ngOnInit() {
     this.registrationForm = this.fb.group({
       'name': ['', [Validators.required, Validators.minLength(6)]],
-      'email': ['', [Validators.required, Validators.email]],
+      'email': ['', [Validators.required, EmailValidatorDirective.validate]],
       'password': ['', Validators.required]
     });
   }
@@ -27,8 +27,12 @@ export class RegistrationFormComponent implements OnInit {
   get password() { return this.registrationForm.get('password'); }
 
   onSubmit() {
+    console.debug('Start submitting...');
+    this.registrationForm.markAllAsTouched();
     if (this.registrationForm.valid) {
       console.debug('Form Submitted!');
+    } else {
+      console.debug('There are errors');
     }
   }
 

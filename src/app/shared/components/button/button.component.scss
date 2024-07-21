@@ -1,3 +1,5 @@
+@import 'src/app/shared/styles/styles.scss';
+
 .app-button {
     display: flex;
     flex-direction: row;
@@ -7,9 +9,11 @@
     gap: 10px;
     background: #007298;
     border-radius: 4px;
+    border: none;
     color: #fff;
     text-transform: uppercase;
     cursor: pointer;
+    width: 100%;
 
     &:hover,
     &:focus,
@@ -17,7 +21,16 @@
         background: #016486;
     }
 
+    &:disabled {
+        background: $color-gray;
+        cursor: auto;
+    }
+
     &__single-icon {
         padding: 13px;
+    }
+
+    &.fixed-width {
+        width: 215px;
     }
 }
