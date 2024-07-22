@@ -13,19 +13,24 @@
   &__flex {
     display: flex;
     justify-content: space-between;
-    align-items: baseline;
+    align-items: center;
 
     & input {
-      flex: 1;
+      // flex: 1;
+      width: 500px;
     }
 
     & app-button {
       margin-left: 16px;
     }
 
-    & .course__duration {
-      margin-left: 16px;
+    &__duration {
+      justify-content: flex-start;
     }
+  }
+
+  &__duration {
+    margin-left: 16px;
   }
 
   &__listAuthors {
@@ -52,5 +57,5 @@
 .author-container {
   display: flex;
   justify-content: space-between;
-  align-items: baseline;
+  align-items: center;
 }

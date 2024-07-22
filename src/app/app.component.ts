@@ -33,4 +33,8 @@ export class AppComponent {
   addNewCourse() {
     console.debug('addNewCourse not implemented');
   }
+
+  onSearch(value: string) {
+    console.debug('onSearch not implemented with value:', value);
+  }
 }

@@ -1,4 +1,5 @@
 <div class="app-search">
-  <input type="text" placeholder="Input text">
-  <app-button></app-button>
+  <input type="text" #textRef placeholder="{{placeholder}}">
+  <app-button buttonText="search" [iconName]="['fas', 'magnifying-glass']"
+    (click)="searchAction(textRef.value)"></app-button>
 </div>

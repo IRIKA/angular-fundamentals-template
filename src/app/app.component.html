@@ -9,7 +9,7 @@
 </app-header>
 <div class="app-root">
   <!-- Search component -->
-  <!--<app-search></app-search>-->
+  <app-search placeholder="Search for courses..." (search)="onSearch($event)"></app-search>
 
   <ng-container *ngIf="isLoggedIn; else loginForm">
 

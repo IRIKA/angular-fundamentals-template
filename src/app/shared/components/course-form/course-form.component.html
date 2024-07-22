@@ -28,7 +28,7 @@
       <h3>Duration</h3>
       <div class="form__control">
         <label for="duration">Duration</label>
-        <div class="course__flex">
+        <div class="course__flex course__flex__duration">
           <!--Use the name `duration` for the form array.-->
           <input type="number" id="duration" formControlName="duration"
             [ngClass]="{'error': durationControl?.invalid && (durationControl?.dirty || durationControl?.touched)}"
