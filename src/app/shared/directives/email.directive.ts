@@ -15,7 +15,7 @@ export class EmailValidatorDirective implements Validator {
     static validate(control: AbstractControl): ValidationErrors | null {
         const value = control.value;
         if (!value) {
-            return null;
+            return { email: true };
         }
         const emailRegex = new RegExp('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$', "i");
         const valid = emailRegex.test(value);

@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { v4 as uuidv4 } from 'uuid';
 import {
   AbstractControl,
   FormArray,
@@ -83,11 +82,6 @@ export class CourseFormComponent implements OnInit {
   }
 
   getMinLengthError(control?: AbstractControl | null, fieldName?: string, checkTouched: boolean = true) {
-
-    if (control == this.authorControl?.get('name')) {
-      console.debug('clicked-1', control?.value);
-    }
-
     if (!control) {
       return '';
     }
@@ -105,15 +99,9 @@ export class CourseFormComponent implements OnInit {
   }
 
   getPatternError(control?: AbstractControl | null) {
-
-    console.debug('clicked-2');
     if (!control || !this.createAuthorClicked) {
       return '';
     }
-    // console.debug('authorControl', control);
-    // console.debug('authorControl isFieldInvalid', this.isFieldInvalid(control));
-    // console.debug('authorControl hasError pattern', control?.hasError('pattern'));
-    // console.debug(this.authorControl?.get('name')?.value);
     if (this.isFieldInvalid(control) && control?.hasError('pattern')) {
       return 'New author should contain only latin letters and numbers.';
     }
@@ -141,11 +129,7 @@ export class CourseFormComponent implements OnInit {
   }
 
   onCreateAuthor() {
-
-    console.debug('clicked-3');
-
     this.createAuthorClicked = true;
-    console.debug('this.createAuthorClicked', this.createAuthorClicked);
 
     const authorNameControl = this.authorControl?.get('name');
     if (authorNameControl?.hasError('pattern')) {
@@ -153,7 +137,7 @@ export class CourseFormComponent implements OnInit {
     }
     const authorName = authorNameControl?.value;
     if (authorName && authorName.trim().length >= 2) {
-      const newauthorId = uuidv4();
+      const newauthorId = generateUUID();
       const newAuthor = this.fb.group({
         id: newauthorId,
         name: authorName
@@ -168,7 +152,6 @@ export class CourseFormComponent implements OnInit {
     const author = this.authors.at(index);
     this.courseAuthors.push(author);
     this.authors.removeAt(index);
-
   }
 
   removeCourseAuthor(index: number) {
@@ -176,4 +159,11 @@ export class CourseFormComponent implements OnInit {
     this.authors.push(author);
     this.courseAuthors.removeAt(index);
   }
+}
+
+function generateUUID() {
+  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+    var r = Math.random() * 16 | 0, v = c === 'x' ? r : (r & 0x3 | 0x8);
+    return v.toString(16);
+  });
 }
