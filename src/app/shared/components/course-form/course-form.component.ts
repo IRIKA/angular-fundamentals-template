@@ -15,9 +15,6 @@ import { CoursesStoreService } from '@app/services/courses-store.service';
   styleUrls: ['./course-form.component.scss'],
 })
 export class CourseFormComponent implements OnInit {
-  testFunction() {
-    console.debug('Method not implemented.');
-  }
   createAuthorClicked = false;
 
   constructor(
@@ -25,6 +22,17 @@ export class CourseFormComponent implements OnInit {
     public fb: FormBuilder,
     public library: FaIconLibrary) {
     library.addIconPacks(fas);
+    this.courseForm = this.fb.group({
+      title: new FormControl(),
+      description: new FormControl(),
+      duration: new FormControl(),
+      author: this.fb.group({
+        id: new FormControl(),
+        name: new FormControl()
+      }),
+      authors: new FormArray([]),
+      courseAuthors: new FormArray([])
+    });
   }
   courseForm!: FormGroup;
   // Use the names `title`, `description`, `author`, 'authors' (for authors list), `duration` for the form controls.
@@ -40,31 +48,31 @@ export class CourseFormComponent implements OnInit {
 
     this.courseForm = this.fb.group({
       title: ['', [Validators.required, Validators.minLength(2)]],
-      description: ['', [Validators.required, Validators.minLength(20)]],
+      description: ['', [Validators.required, Validators.minLength(2)]],
       duration: ['', this.durationValidator],
       author: this.fb.group({
         id: ['', Validators.required],
         name: ['', [Validators.required, Validators.minLength(2), Validators.pattern('^[a-zA-Z0-9]+$')]]
       }),
-      authors: this.fb.array(authorFormGroups),
-      courseAuthors: this.fb.array([])
+      authors: this.fb.array<FormGroup>(authorFormGroups),
+      courseAuthors: this.fb.array<FormGroup>([])
     });
   }
 
   get titleControl() {
-    return this.courseForm.get('title');
+    return this.courseForm ? this.courseForm.get('title') : null;
   }
 
   get descriptionControl() {
-    return this.courseForm.get('description');
+    return this.courseForm ? this.courseForm.get('description') : null;
   }
 
   get durationControl() {
-    return this.courseForm.get('duration');
+    return this.courseForm ? this.courseForm.get('duration') : null;
   }
 
   get authorControl() {
-    return this.courseForm.get('author');
+    return this.courseForm ? this.courseForm.get('author') : null;
   }
 
   isFieldInvalid(control: AbstractControl | null, checkTouched: boolean = true) {
@@ -120,7 +128,7 @@ export class CourseFormComponent implements OnInit {
     return this.courseAuthors.value.length == 0;
   }
 
-  get authors() {
+  get authors(): FormArray {
     return this.courseForm.get('authors') as FormArray;
   }
 

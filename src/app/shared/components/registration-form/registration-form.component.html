@@ -13,7 +13,7 @@
       <div class="form__control">
         <!--Use the name `email` for the form control.-->
         <label for="email">Email</label>
-        <input type="text" id="email" formControlName="email"
+        <input type="text" id="email" formControlName="email" emailValidator
           [ngClass]="{'error': email?.invalid && (email?.dirty || email?.touched)}" placeholder="Input text" />
         <span id="emailErrorMessage" class="text-danger"
           *ngIf="email?.invalid && (email?.dirty || email?.touched)">Valid
