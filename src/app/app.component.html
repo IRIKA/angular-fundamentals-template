@@ -9,40 +9,47 @@
 </app-header>
 <div class="app-root">
   <!-- Search component -->
-  <app-search placeholder="Search for courses..." (search)="onSearch($event)"></app-search>
+  <!-- <app-search placeholder="Search for courses..." (search)="onSearch($event)"></app-search> -->
 
-  <ng-container *ngIf="isLoggedIn; else loginForm">
+  <!-- <ng-container *ngIf="isLoggedIn; else loginForm"> -->
 
-    <!-- Courses component -->
-    <app-courses *ngIf="isCourses; else infoComponent" [isLoggedIn]="isLoggedIn"></app-courses>
+  <!-- Courses component -->
+  <!-- <app-courses *ngIf="isCourses; else infoComponent" [isLoggedIn]="isLoggedIn"></app-courses> -->
 
-    <!-- Info component -->
-    <ng-template #infoComponent>
+  <!-- Info component -->
+  <!-- <ng-template #infoComponent>
       <app-info [title]="infoTitle" [text]="infoText">
         <app-button buttonText="Add new course" [iconName]="['fas', 'plus']" (click)="addNewCourse()"></app-button>
       </app-info>
-    </ng-template>
+    </ng-template> -->
 
-  </ng-container>
+  <!-- </ng-container> -->
 
   <!-- Course Card component -->
   <!--<app-course-card></app-course-card>-->
 
   <!-- Login Form component -->
-  <ng-template #loginForm>
+  <!-- <ng-template #loginForm>
     <div *ngIf="!isRegistrationSelected; else registrationForm">
       <app-login-form (registrationSelected)="onRegistrationSelected($event)"></app-login-form>
     </div>
-  </ng-template>
+  </ng-template> -->
 
   <!-- Login Form component -->
-  <ng-template #registrationForm>
+  <!-- <ng-template #registrationForm>
     <app-registration-form (loginSelected)="onLoginSelected($event)"></app-registration-form>
-  </ng-template>
+  </ng-template> -->
 
   <!-- Login Form component -->
-  <app-course-form></app-course-form>
+  <!-- <app-course-form></app-course-form> -->
 
   <!-- Modal component -->
   <!-- <app-modal [message]="'Message'" [title]="'Title'" [okButtonText]="'Ok'" [cancelButtonText]="'Cancel'"></app-modal> -->
 </div>
+
+<button type="button" routerLink="/login">Login</button>
+<button type="button" routerLink="/registration">Registration</button>
+<button type="button" routerLink="/courses">Courses</button>
+<button type="button" routerLink="">Home</button>
+
+<router-outlet></router-outlet>

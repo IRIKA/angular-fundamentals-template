@@ -8,9 +8,6 @@ import {
   InfoComponent,
   SearchComponent,
   CourseCardComponent,
-  LoginFormComponent,
-  RegistrationFormComponent,
-  CourseFormComponent
 } from "./components";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { DurationPipe } from './pipes/duration.pipe';
@@ -25,9 +22,6 @@ const components = [
   SearchComponent,
   ModalComponent,
   CourseCardComponent,
-  LoginFormComponent,
-  RegistrationFormComponent,
-  CourseFormComponent,
   DurationPipe,
   CustomDatePipe,
   EmailValidatorDirective,

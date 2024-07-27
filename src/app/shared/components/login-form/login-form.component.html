@@ -20,10 +20,8 @@
           <!--Use the name `password` for the form control.-->
           <div class="input-wrapper">
             <input type="password" name="password" id="password" #password="ngModel" [(ngModel)]="passwordModel"
-              required togglePassword #togglePassword="togglePassword" placeholder="Input text"
-              (blur)="onInput('password')" [class.touched]="formSubmitted || startedTyping['password']" />
-            <fa-icon *ngIf="passwordModel.length > 0" [icon]="togglePassword.isVisible ? 'eye' : 'eye-slash'"
-              class="password-toggle-icon" (click)="togglePassword.toggleView()"></fa-icon>
+              required togglePassword placeholder="Input text" (blur)="onInput('password')"
+              [class.touched]="formSubmitted || startedTyping['password']" />
           </div>
           <span id="passwordErrorMessage" class="text-danger"
             *ngIf="password.invalid && (formSubmitted || password.dirty || password.touched)" class="text-danger">

@@ -1,51 +1,69 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Author } from '@app/models/author.model';
 import { Course } from '@app/models/course.model';
-import { mockedAuthorsList } from '@app/shared/mocks/mock';
+import { Observable } from 'rxjs';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
     providedIn: 'root'
 })
 export class CoursesService {
-    authors: Author[] = mockedAuthorsList;
+    private API_URL = environment.baseUrl;
 
-    getAll() {
+    constructor(private http: HttpClient) { }
+
+    getAll(): Observable<Course[]> {
         // Add your code here
+        return this.http.get<Course[]>(`${this.API_URL}/courses/all`);
     }
 
-    createCourse(course: any) { // replace 'any' with the required interface
+    createCourse(course: Course): Observable<Course> { // replace 'any' with the required interface
         // Add your code here
+        return this.http.post<Course>(`${this.API_URL}/courses/add`, course);
     }
 
-    editCourse(id: string, course: any) { // replace 'any' with the required interface
+    getCourse(id: string): Observable<Course> {
         // Add your code here
+        return this.http.get<Course>(`${this.API_URL}/courses/${id}`);
     }
 
-    getCourse(id: string) {
+    editCourse(id: string, course: Course): Observable<Course> { // replace 'any' with the required interface
         // Add your code here
+        return this.http.put<Course>(`${this.API_URL}/courses/${id}`, course);
     }
 
-    deleteCourse(id: string) {
+    deleteCourse(id: string): Observable<any> {
         // Add your code here
+        return this.http.delete(`${this.API_URL}/courses/${id}`);
     }
 
-    filterCourses(value: string) {
+    filterCourses(value: string): Observable<Course[]> {
         // Add your code here
+        const params = { title: value, description: value, creationDate: value, duration: value };
+        return this.http.get<Course[]>(`${this.API_URL}/courses/filter`, { params });
     }
 
-    getAllAuthors(course: Course): string {
+    getAllAuthors(): Observable<Author[]> {
         // Add your code here
-        return course.authors.map(id => {
-            const author = this.authors.find(author => author.id === id);
-            return author ? author.name : null;
-        }).join(', ');
+        return this.http.get<Author[]>(`${this.API_URL}/authors/all`);
     }
 
-    createAuthor(name: string) {
+    // getAllAuthors(course: Course): string {
+    //     // Add your code here
+    //     return course.authors.map(id => {
+    //         const author = this.authors.find(author => author.id === id);
+    //         return author ? author.name : null;
+    //     }).join(', ');
+    // }
+
+    createAuthor(name: string): Observable<Author> {
         // Add your code here
+        return this.http.post<Author>(`${this.API_URL}/authors/add`, { name });
     }
 
-    getAuthorById(id: string) {
+    getAuthorById(id: string): Observable<Author> {
         // Add your code here
+        return this.http.get<Author>(`${this.API_URL}/authors/${id}`);
     }
 }

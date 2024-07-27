@@ -17,7 +17,11 @@ export class CourseInfoComponent implements OnInit {
   @Output() back = new EventEmitter<void>();
 
   ngOnInit() {
-    this.authors = this.coursesService.getAllAuthors(this.course);
+    this.coursesService.getAllAuthors().subscribe(allAuthors => {
+      const courseAuthors = this.course.authors;
+      const authors = allAuthors.filter(author => courseAuthors.includes(author.id));
+      this.authors = authors.map(author => author.name).join(', ');
+    });
   }
 
   goBack() {

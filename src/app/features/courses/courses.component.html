@@ -1,3 +1,9 @@
-<app-courses-list [courses]="mockedCoursesList" [editable]="isLoggedIn" (showCourse)="showCourse($event)"
+<!-- <app-courses-list [courses]="mockedCoursesList" [editable]="isLoggedIn" (showCourse)="showCourse($event)"
     (editCourse)="editCourse($event)" (deleteCourse)="deleteCourse($event)">
-</app-courses-list>
+</app-courses-list> -->
+
+<h1>it's courses component</h1>
+<button type="button" routerLink="/courses/add">Add new course</button>
+<button type="button" routerLink="/courses/:id">Show course</button>
+<button type="button" routerLink="/courses/edit/:id">Edit course</button>
+<router-outlet></router-outlet>

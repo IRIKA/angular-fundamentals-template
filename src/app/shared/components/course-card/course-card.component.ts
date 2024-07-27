@@ -20,7 +20,11 @@ export class CourseCardComponent implements OnInit {
   @Output() delete = new EventEmitter<Course>();
 
   ngOnInit() {
-    this.authors = this.coursesService.getAllAuthors(this.course);
+    this.coursesService.getAllAuthors().subscribe(allAuthors => {
+      const courseAuthors = this.course.authors;
+      const authors = allAuthors.filter(author => courseAuthors.includes(author.id));
+      this.authors = authors.map(author => author.name).join(', ');
+    });
   }
 
   showCourse(course: Course) {

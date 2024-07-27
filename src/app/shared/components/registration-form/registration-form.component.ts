@@ -1,6 +1,9 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+import { AuthService } from '@app/auth/services/auth.service';
 import { EmailValidatorDirective } from '@app/shared/directives/email.directive';
+
 @Component({
   selector: 'app-registration-form',
   templateUrl: './registration-form.component.html',
@@ -12,7 +15,7 @@ export class RegistrationFormComponent implements OnInit {
   @Output() loginSelected = new EventEmitter<boolean>();
 
   // Use the names `name`, `email`, `password` for the form controls.
-  constructor(private fb: FormBuilder) { }
+  constructor(private router: Router, private authService: AuthService, private fb: FormBuilder) { }
 
   ngOnInit() {
     this.registrationForm = this.fb.group({
@@ -31,6 +34,15 @@ export class RegistrationFormComponent implements OnInit {
     this.registrationForm.markAllAsTouched();
     if (this.registrationForm.valid) {
       console.debug('Form Submitted!');
+      this.authService.register(this.registrationForm.value)
+        .subscribe({
+          next: response => {
+            console.debug('Registration successful', response);
+            this.router.navigate(['/login']);
+          },
+          error: error => console.error('Registration error', error)
+        }
+        );
     } else {
       console.debug('There are errors');
     }
@@ -38,5 +50,6 @@ export class RegistrationFormComponent implements OnInit {
 
   onLoginSelected() {
     this.loginSelected.emit(true);
+    this.router.navigate(['/login']);
   }
 }

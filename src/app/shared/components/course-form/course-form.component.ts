@@ -8,6 +8,7 @@ import {
 import { FaIconLibrary } from '@fortawesome/angular-fontawesome';
 import { fas } from '@fortawesome/free-solid-svg-icons';
 import { CoursesStoreService } from '@app/services/courses-store.service';
+import { Author } from '@app/models/author.model';
 
 @Component({
   selector: 'app-course-form',
@@ -38,24 +39,25 @@ export class CourseFormComponent implements OnInit {
   // Use the names `title`, `description`, `author`, 'authors' (for authors list), `duration` for the form controls.
 
   ngOnInit() {
-    const authorsFromService = this.coursesStoreService.getAllAuthors();
-    const authorFormGroups = authorsFromService.map(author =>
-      this.fb.group({
-        id: [author.id, Validators.required],
-        name: [author.name, [Validators.required, Validators.minLength(2), Validators.pattern('^[a-zA-Z0-9]+$')]]
-      })
-    );
+    this.coursesStoreService.authors$.subscribe((authorsFromService: Author[]) => {
+      const authorFormGroups = authorsFromService.map(author =>
+        this.fb.group({
+          id: [author.id, Validators.required],
+          name: [author.name, [Validators.required, Validators.minLength(2), Validators.pattern('^[a-zA-Z0-9]+$')]]
+        })
+      );
 
-    this.courseForm = this.fb.group({
-      title: ['', [Validators.required, Validators.minLength(2)]],
-      description: ['', [Validators.required, Validators.minLength(2)]],
-      duration: ['', this.durationValidator],
-      author: this.fb.group({
-        id: ['', Validators.required],
-        name: ['', [Validators.required, Validators.minLength(2), Validators.pattern('^[a-zA-Z0-9]+$')]]
-      }),
-      authors: this.fb.array<FormGroup>(authorFormGroups),
-      courseAuthors: this.fb.array<FormGroup>([])
+      this.courseForm = this.fb.group({
+        title: ['', [Validators.required, Validators.minLength(2)]],
+        description: ['', [Validators.required, Validators.minLength(2)]],
+        duration: ['', this.durationValidator],
+        author: this.fb.group({
+          id: ['', Validators.required],
+          name: ['', [Validators.required, Validators.minLength(2), Validators.pattern('^[a-zA-Z0-9]+$')]]
+        }),
+        authors: this.fb.array<FormGroup>(authorFormGroups),
+        courseAuthors: this.fb.array<FormGroup>([])
+      });
     });
   }
 
