@@ -9,6 +9,7 @@ import { FaIconLibrary } from '@fortawesome/angular-fontawesome';
 import { fas } from '@fortawesome/free-solid-svg-icons';
 import { CoursesStoreService } from '@app/services/courses-store.service';
 import { Author } from '@app/models/author.model';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-course-form',
@@ -19,6 +20,7 @@ export class CourseFormComponent implements OnInit {
   createAuthorClicked = false;
 
   constructor(
+    private route: ActivatedRoute,
     private coursesStoreService: CoursesStoreService,
     public fb: FormBuilder,
     public library: FaIconLibrary) {
@@ -39,6 +41,8 @@ export class CourseFormComponent implements OnInit {
   // Use the names `title`, `description`, `author`, 'authors' (for authors list), `duration` for the form controls.
 
   ngOnInit() {
+    const id = this.route.snapshot.paramMap.get('id');
+    console.debug(`CourseFormComponent ${id}`);
     this.coursesStoreService.authors$.subscribe((authorsFromService: Author[]) => {
       const authorFormGroups = authorsFromService.map(author =>
         this.fb.group({

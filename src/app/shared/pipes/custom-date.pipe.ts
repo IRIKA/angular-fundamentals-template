@@ -10,6 +10,12 @@ export class CustomDatePipe extends DatePipe implements PipeTransform {
         super('en-US');
     }
     override transform(value: any, format: string = 'dd.MM.yyyy'): any {
-        return super.transform(value, format);
+        if (!value) {
+            return value;
+        }
+        const dateParts = value.split('/');
+        const dateObject = new Date(+dateParts[2], dateParts[1] - 1, +dateParts[0]);
+
+        return super.transform(dateObject, format);
     }
 }

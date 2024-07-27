@@ -23,6 +23,7 @@ export class CoursesStoreService {
         // Add your code here
         this.isLoading$$.next(true);
         this.coursesService.getAll().subscribe(courses => {
+            console.debug(courses);
             this.courses$$.next(courses);
             this.isLoading$$.next(false);
         });

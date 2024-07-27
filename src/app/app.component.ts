@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from './auth/services/auth.service';
+import { UserStoreService } from './user/services/user-store.service';
 
 @Component({
   selector: 'app-root',
@@ -16,7 +17,10 @@ export class AppComponent implements OnInit {
   infoText = 'Please use "Add New Course" button to add  your first course';
   isRegistrationSelected: boolean = false;
 
-  constructor(private router: Router, private authService: AuthService) { }
+  constructor(
+    private authService: AuthService,
+    private userStoreService: UserStoreService,
+    private router: Router) { }
 
   ngOnInit(): void {
     this.authService.isAuthorized$.subscribe(
@@ -25,6 +29,10 @@ export class AppComponent implements OnInit {
         this.router.navigate([isLoggedIn ? '/courses' : '/login']);
       }
     );
+    this.userStoreService.getUser();
+    this.userStoreService.name$.subscribe(name => {
+      this.userName = name;
+    });
   }
 
   login() {

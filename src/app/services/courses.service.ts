@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Author } from '@app/models/author.model';
 import { Course } from '@app/models/course.model';
-import { Observable } from 'rxjs';
+import { map, Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 
 @Injectable({
@@ -15,7 +15,13 @@ export class CoursesService {
 
     getAll(): Observable<Course[]> {
         // Add your code here
-        return this.http.get<Course[]>(`${this.API_URL}/courses/all`);
+        return this.http.get<{ successful: boolean, result: Course[] }>(`${this.API_URL}/courses/all`)
+            .pipe(
+                map(response => {
+                    console.debug(response.result);
+                    return response.result;
+                })
+            );
     }
 
     createCourse(course: Course): Observable<Course> { // replace 'any' with the required interface
@@ -46,16 +52,25 @@ export class CoursesService {
 
     getAllAuthors(): Observable<Author[]> {
         // Add your code here
-        return this.http.get<Author[]>(`${this.API_URL}/authors/all`);
+        return this.http.get<{ successful: boolean, result: Author[] }>(`${this.API_URL}/authors/all`)
+            .pipe(
+                map(response => {
+                    return response.result;
+                }));
     }
 
-    // getAllAuthors(course: Course): string {
-    //     // Add your code here
-    //     return course.authors.map(id => {
-    //         const author = this.authors.find(author => author.id === id);
-    //         return author ? author.name : null;
-    //     }).join(', ');
-    // }
+    getAuthorsByCourse(course: Course): Observable<string> {
+        // Add your code here
+        return this.getAllAuthors().pipe(
+            map(authors =>
+                course.authors
+                    .map(id => authors.find(author => author.id === id))
+                    .filter((author): author is Author => Boolean(author))
+                    .map(author => author.name)
+                    .join(', ')
+            )
+        );
+    }
 
     createAuthor(name: string): Observable<Author> {
         // Add your code here

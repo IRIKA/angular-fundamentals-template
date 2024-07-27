@@ -1,6 +1,8 @@
-<!-- <app-courses-list [courses]="mockedCoursesList" [editable]="isLoggedIn" (showCourse)="showCourse($event)"
-    (editCourse)="editCourse($event)" (deleteCourse)="deleteCourse($event)">
-</app-courses-list> -->
+<ng-container *ngIf="{ data: courses$ | async } as result">
+    <app-courses-list [courses]="result.data || []" [editable]="(userStoreService.isAdmin$ | async)?.valueOf() || false"
+        (showCourse)="showCourse($event)" (editCourse)="editCourse($event)"
+        (deleteCourse)="deleteCourse($event)"></app-courses-list>
+</ng-container>
 
 <h1>it's courses component</h1>
 <button type="button" routerLink="/courses/add">Add new course</button>

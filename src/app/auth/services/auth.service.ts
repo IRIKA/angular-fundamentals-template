@@ -4,6 +4,7 @@ import { User } from '@app/models/user.model';
 import { BehaviorSubject, catchError, Observable, tap, throwError } from 'rxjs';
 import { SessionStorageService } from './session-storage.service';
 import { environment } from 'src/environments/environment';
+import { UserStoreService } from '@app/user/services/user-store.service';
 
 const httpOptions = {
     headers: new HttpHeaders({
@@ -18,19 +19,25 @@ export class AuthService {
     isAuthorized$$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
     public isAuthorized$: Observable<boolean> = this.isAuthorized$$.asObservable();
 
-    constructor(private http: HttpClient, private sessionStorageService: SessionStorageService) {
+    constructor(
+        private userStoreService: UserStoreService,
+        private http: HttpClient,
+        private sessionStorageService: SessionStorageService
+    ) {
         const token = this.sessionStorageService.getToken();
         this.isAuthorized$$.next(!!token);
     }
 
     login(user: User) { // replace 'any' with the required interface
         // Add your code here
-        console.debug(environment);
-        console.debug(environment.baseUrl);
         return this.http.post(`${environment.baseUrl}/login`, user)
             .pipe(tap((response: any) => {
                 this.sessionStorageService.setToken(response.result.split(' ')[1]);
                 this.isAuthorized$$.next(true);
+                // this.userStoreService.name = response.user.name;
+                // this.userStoreService.isAdmin = response.result.role === 'admin';
+                this.userStoreService.getUser();
+                console.debug(`response is ${response}`);
             }),
                 catchError(error => {
                     console.error('Login error', error);

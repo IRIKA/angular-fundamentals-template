@@ -10,7 +10,10 @@ import { CoursesService } from '@app/services/courses.service';
 })
 export class CourseCardComponent implements OnInit {
   authors = '';
-  constructor(private coursesService: CoursesService) { }
+
+  constructor(
+    private coursesService: CoursesService
+  ) { }
 
   @Input() course!: Course;
   @Input() editable = false;
@@ -20,10 +23,9 @@ export class CourseCardComponent implements OnInit {
   @Output() delete = new EventEmitter<Course>();
 
   ngOnInit() {
-    this.coursesService.getAllAuthors().subscribe(allAuthors => {
-      const courseAuthors = this.course.authors;
-      const authors = allAuthors.filter(author => courseAuthors.includes(author.id));
-      this.authors = authors.map(author => author.name).join(', ');
+    this.coursesService.getAuthorsByCourse(this.course).subscribe(courseAuthors => {
+      console.debug(courseAuthors);
+      this.authors = courseAuthors;
     });
   }
 
