@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Course } from '@app/models/course.model';
 import { CoursesService } from '@app/services/courses.service';
 
@@ -9,14 +10,27 @@ import { CoursesService } from '@app/services/courses.service';
 })
 export class CourseInfoComponent implements OnInit {
 
-  constructor(private coursesService: CoursesService) { }
+  constructor(
+    private route: ActivatedRoute,
+    private coursesService: CoursesService,
+    private router: Router
+  ) { }
   authors = '';
 
   // Use the names for the input `course`.
-  @Input() course!: Course;
+  course!: Course;
   @Output() back = new EventEmitter<void>();
 
   ngOnInit() {
+    let id = this.route.snapshot.paramMap.get('id');
+    console.debug(`my id = ${id}`);
+    if (id) {
+      this.coursesService.getCourse(id).subscribe(course => {
+        this.course = course;
+        console.debug(this.course);
+      });
+    }
+
     this.coursesService.getAllAuthors().subscribe(allAuthors => {
       const courseAuthors = this.course.authors;
       const authors = allAuthors.filter(author => courseAuthors.includes(author.id));
@@ -25,6 +39,7 @@ export class CourseInfoComponent implements OnInit {
   }
 
   goBack() {
-    this.back.emit();
+    console.debug("goBack");
+    this.router.navigate(['/courses', { goBack: true }]);
   }
 }

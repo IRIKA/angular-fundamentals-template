@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 
 import { Course } from '@app/models/course.model';
+import { CoursesStoreService } from '@app/services/courses-store.service';
 import { CoursesService } from '@app/services/courses.service';
 
 @Component({
@@ -11,9 +12,7 @@ import { CoursesService } from '@app/services/courses.service';
 export class CourseCardComponent implements OnInit {
   authors = '';
 
-  constructor(
-    private coursesService: CoursesService
-  ) { }
+  constructor(private coursesService: CoursesService) { }
 
   @Input() course!: Course;
   @Input() editable = false;

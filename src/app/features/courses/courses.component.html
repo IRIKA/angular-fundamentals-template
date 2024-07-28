@@ -1,11 +1,14 @@
 <ng-container *ngIf="{ data: courses$ | async } as result">
     <app-courses-list [courses]="result.data || []" [editable]="(userStoreService.isAdmin$ | async)?.valueOf() || false"
-        (showCourse)="showCourse($event)" (editCourse)="editCourse($event)"
-        (deleteCourse)="deleteCourse($event)"></app-courses-list>
+        (showCourse)="showCourse($event)" (editCourse)="editCourse($event)" (deleteCourse)="deleteCourse($event)"
+        (back)="onBack()">
+    </app-courses-list>
 </ng-container>
+
+
 
 <h1>it's courses component</h1>
 <button type="button" routerLink="/courses/add">Add new course</button>
-<button type="button" routerLink="/courses/:id">Show course</button>
-<button type="button" routerLink="/courses/edit/:id">Edit course</button>
+<button type="button" routerLink="/courses/66cc289e-6de9-49b2-9ca7-8b4f409d6467">Show course</button>
+<button type="button" routerLink="/courses/edit/66cc289e-6de9-49b2-9ca7-8b4f409d6467">Edit course</button>
 <router-outlet></router-outlet>

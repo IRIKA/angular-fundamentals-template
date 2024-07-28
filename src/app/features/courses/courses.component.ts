@@ -1,5 +1,5 @@
-import { Component, Input } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Course } from '@app/models/course.model';
 import { CoursesStoreService } from '@app/services/courses-store.service';
 import { UserStoreService } from '@app/user/services/user-store.service';
@@ -12,14 +12,19 @@ import { Observable } from 'rxjs';
 })
 export class CoursesComponent {
   courses$: Observable<Course[]>;
-
-  @Input() isLoggedIn = false;
+  // @Input() isLoggedIn = false;
 
   constructor(
     private router: Router,
+    private route: ActivatedRoute,
     private coursesStoreService: CoursesStoreService,
     public userStoreService: UserStoreService
   ) {
+    this.route.params.subscribe(params => {
+      if (params['goBack']) {
+        this.onBack();
+      }
+    });
     this.courses$ = this.coursesStoreService.courses$;
   }
 
@@ -29,18 +34,22 @@ export class CoursesComponent {
   }
 
   showCourse(course: Course) {
-    console.debug('course is: ', course);
-    return this.coursesStoreService.getCourse(course.id);
+    this.router.navigate(['/courses', course.id]);
   }
 
   editCourse(course: Course) {
     console.debug('editCourse not implemented: ', course);
-    this.router.navigate(['/edit', course.id]);
+    // this.router.navigate(['/edit', course.id]);
+    this.router.navigate(['/courses/edit', course.id]);
     //return this.coursesStoreService.editCourse(course.id, course);
   }
 
   deleteCourse(course: any) {
     console.debug('deleteCourse not implemented: ', course);
+  }
 
+  onBack() {
+    console.debug('Event received in app-courses, navigating to /courses.');
+    this.router.navigate(['/courses']);
   }
 }

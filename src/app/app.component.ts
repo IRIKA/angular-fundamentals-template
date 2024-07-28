@@ -55,11 +55,7 @@ export class AppComponent implements OnInit {
     this.router.navigate(['/login']);
   }
 
-  addNewCourse() {
-    console.debug('addNewCourse not implemented');
-  }
-
-  onSearch(value: string) {
-    console.debug('onSearch not implemented with value:', value);
-  }
+  // addNewCourse() {
+  //   console.debug('addNewCourse not implemented');
+  // }  
 }

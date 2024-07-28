@@ -1,9 +1,16 @@
-<div *ngIf="!showCourseInfo" class="course-list">
+<div class="search-container">
+    <app-search placeholder="Search for courses..." (search)="onSearch($event)"></app-search>
+    <app-button buttonText="Add new course" *ngIf="editable" [iconName]="['fas', 'plus']"
+        (click)="addNewCourse()"></app-button>
+</div>
+
+<!-- <div *ngIf="!showCourseInfo" class="course-list"> -->
+<div class="course-list">
     <app-course-card *ngFor="let course of courses" [course]="course" [editable]="editable"
         (show)="onShowCourse(course)" (edit)="onEditCourse(course)" (delete)="onDeleteCourse(course)">
     </app-course-card>
 </div>
 
-<div *ngIf="showCourseInfo">
+<!-- <div *ngIf="showCourseInfo">
     <app-course-info [course]="selectedCourse" (back)="onBack()"></app-course-info>
-</div>
+</div> -->

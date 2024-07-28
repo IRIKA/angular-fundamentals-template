@@ -1,16 +1,17 @@
 <!-- Replace ::text:: with your code -->
-
-<div class="title">{{ course.title }}</div>
-<div class="course-info">
-  <div class="course-info__description" [innerHTML]="course.description"></div>
-  <div class="course-info__info">
-    <div><b>ID: </b><span class="course-info__info-id">{{ course.id }}</span></div>
-    <div><b>Duration: </b><span class="course-info__info-duration">{{ course.duration | duration }}</span></div>
-    <div><b>Created: </b><span class="course-info__info-date">{{ course.creationDate | customDate }}</span></div>
-    <div><b>Authors: </b><span class="course-info__info-authors">{{ authors }}</span></div>
+<ng-container *ngIf="course">
+  <div class="title">{{ course.title }}</div>
+  <div class="course-info">
+    <div class="course-info__description" [innerHTML]="course.description"></div>
+    <div class="course-info__info">
+      <div><b>ID: </b><span class="course-info__info-id">{{ course.id }}</span></div>
+      <div><b>Duration: </b><span class="course-info__info-duration">{{ course.duration | duration }}</span></div>
+      <div><b>Created: </b><span class="course-info__info-date">{{ course.creationDate | customDate }}</span></div>
+      <div><b>Authors: </b><span class="course-info__info-authors">{{ authors }}</span></div>
+    </div>
   </div>
-</div>
-<div class="navigation-block">
-  <!--Enter your code here-->
-  <app-button buttonText="Back" [iconName]="['fas', 'arrow-rotate-left']" (click)="goBack()"></app-button>
-</div>
+  <div class="navigation-block">
+    <!--Enter your code here-->
+    <app-button buttonText="Back" [iconName]="['fas', 'arrow-rotate-left']" (click)="goBack()"></app-button>
+  </div>
+</ng-container>

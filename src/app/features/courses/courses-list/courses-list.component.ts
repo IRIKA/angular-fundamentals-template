@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Course } from '@app/models/course.model';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-courses-list',
@@ -7,8 +8,12 @@ import { Course } from '@app/models/course.model';
   styleUrls: ['./courses-list.component.scss']
 })
 export class CoursesListComponent {
-  showCourseInfo = false;
+  // showCourseInfo = false;
   selectedCourse!: Course;
+
+  constructor(
+    private router: Router,
+  ) { }
 
   @Input() courses: Course[] = [];
   @Input() editable = false;
@@ -18,7 +23,8 @@ export class CoursesListComponent {
   @Output() deleteCourse = new EventEmitter<Course>();
 
   onShowCourse(course: Course) {
-    this.showCourseInfo = true;
+    console.debug(`onShowCourse ${course.id}`);
+    // this.showCourseInfo = true;
     this.selectedCourse = course;
     this.showCourse.emit(course);
   }
@@ -31,7 +37,16 @@ export class CoursesListComponent {
     this.deleteCourse.emit(course);
   }
 
-  onBack() {
-    this.showCourseInfo = false;
+  // onBack() {
+  //   // this.showCourseInfo = false;
+  // }
+
+  onSearch(value: string) {
+    console.debug('onSearch not implemented with value:', value);
+  }
+
+  addNewCourse() {
+    console.debug('addNewCourse not implemented');
+    this.router.navigate(['/courses/add']);
   }
 }

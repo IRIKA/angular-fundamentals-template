@@ -10,6 +10,7 @@ import { fas } from '@fortawesome/free-solid-svg-icons';
 import { CoursesStoreService } from '@app/services/courses-store.service';
 import { Author } from '@app/models/author.model';
 import { ActivatedRoute } from '@angular/router';
+import { map, of, switchMap, tap } from 'rxjs';
 
 @Component({
   selector: 'app-course-form',
@@ -39,29 +40,59 @@ export class CourseFormComponent implements OnInit {
   }
   courseForm!: FormGroup;
   // Use the names `title`, `description`, `author`, 'authors' (for authors list), `duration` for the form controls.
+  createAuthorGroup(author: Author) {
+    return this.fb.group({
+      id: [author.id, Validators.required],
+      name: [author.name, [Validators.required, Validators.minLength(2), Validators.pattern('^[a-zA-Z0-9]+$')]],
+    });
+  }
+
+  createCourseAuthorGroup(authorsFromService: Author[], authorId: string) {
+    const author = authorsFromService.find(a => a.id == authorId);
+    return author ? this.createAuthorGroup(author) : null;
+  }
 
   ngOnInit() {
-    const id = this.route.snapshot.paramMap.get('id');
-    console.debug(`CourseFormComponent ${id}`);
-    this.coursesStoreService.authors$.subscribe((authorsFromService: Author[]) => {
-      const authorFormGroups = authorsFromService.map(author =>
-        this.fb.group({
-          id: [author.id, Validators.required],
-          name: [author.name, [Validators.required, Validators.minLength(2), Validators.pattern('^[a-zA-Z0-9]+$')]]
-        })
-      );
+    // Create initial structure for the form.
+    this.courseForm = this.fb.group({
+      title: ['', [Validators.required, Validators.minLength(2)]],
+      description: ['', [Validators.required, Validators.minLength(2)]],
+      duration: ['', this.durationValidator],
+      authors: this.fb.array([]),
+      courseAuthors: this.fb.array([])
+    });
 
-      this.courseForm = this.fb.group({
-        title: ['', [Validators.required, Validators.minLength(2)]],
-        description: ['', [Validators.required, Validators.minLength(2)]],
-        duration: ['', this.durationValidator],
-        author: this.fb.group({
-          id: ['', Validators.required],
-          name: ['', [Validators.required, Validators.minLength(2), Validators.pattern('^[a-zA-Z0-9]+$')]]
-        }),
-        authors: this.fb.array<FormGroup>(authorFormGroups),
-        courseAuthors: this.fb.array<FormGroup>([])
-      });
+    this.coursesStoreService.getAllAuthors();
+    const courseId = this.route.snapshot.paramMap.get('id');
+
+    this.coursesStoreService.authors$.pipe(
+      switchMap(authorsFromService => {
+        if (courseId) {
+          return this.coursesStoreService.getCourse(courseId).pipe(
+            tap(course => {
+              if (course) {
+                this.courseForm.patchValue({
+                  title: course.title,
+                  description: course.description,
+                  duration: course.duration
+                });
+
+                const courseAuthorsArray = course.authors.map(authorId =>
+                  this.createCourseAuthorGroup(authorsFromService, authorId)
+                ).filter(group => group !== null) as FormGroup[];
+
+                this.courseForm.setControl('courseAuthors', this.fb.array(courseAuthorsArray));
+              }
+            }),
+            map(course => course ? authorsFromService.filter(author => !course.authors.includes(author.id)) : authorsFromService)
+          );
+        } else {
+          return of(authorsFromService);
+        }
+      })
+    ).subscribe(authorsFromService => {
+      const authorFormGroups = authorsFromService.map(this.createAuthorGroup.bind(this));
+      this.courseForm.setControl('authors', this.fb.array(authorFormGroups));
     });
   }
 
