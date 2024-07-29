@@ -12,8 +12,8 @@ export class CourseInfoComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    private coursesService: CoursesService,
-    private router: Router
+    private router: Router,
+    private coursesService: CoursesService
   ) { }
   authors = '';
 

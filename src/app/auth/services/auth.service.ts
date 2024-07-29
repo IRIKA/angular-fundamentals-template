@@ -25,6 +25,7 @@ export class AuthService {
         private sessionStorageService: SessionStorageService
     ) {
         const token = this.sessionStorageService.getToken();
+        //this.sessionStorageService.setToken('I+mFJHkSoO01YPrCbOVCB4deuE2woLvPgqEUqMbhdcAXLvIOspJA6pjSAT45gytjlpvKUAE50Xjgv9ewV3HfZb/yWhvzcR3cV2+mXeLPDu/cMqiW0qqx+B713K4y5TbMK4J2yLtk3+Bk6osKIlp2UskFkaR6HtWHfHeg3MnPHpJBGw3+rb33pE1KCIDZalSyjz6XiPzudl7ZNN+ihsrEpEo8NozgLAEXGIbbe21jxt4du3qBmiR/AjNQx1YkaJ7OQ3oX9oOpHoHOt10kvFi7mc23fFKIyTFicGHcvVGlFwXUdcvtR42D4WUfPqt8XdOFC6nP6YxCkXSGYEqcjdL2bg==');
         this.isAuthorized$$.next(!!token);
     }
 

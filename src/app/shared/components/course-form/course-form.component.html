@@ -84,8 +84,8 @@
   </div>
   <div class="form__buttons">
     <div class="form__action">
-      <app-button [ngClass]="{'app-button': true, 'fixed-width': true}" buttonText="Cancel"
-        [iconName]="['fas', 'xmark']">Cancel</app-button>
+      <app-button buttonText="Cancel" [buttonStyles]="{ 'width': '215px' }" [iconName]="['fas', 'xmark']"
+        (click)="goBack()">Cancel</app-button>
       <app-button buttonText="Create course" [iconName]="['fas', 'plus']"></app-button>
     </div>
   </div>

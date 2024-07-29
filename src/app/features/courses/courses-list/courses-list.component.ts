@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Course } from '@app/models/course.model';
 import { Router } from '@angular/router';
+import { CoursesService } from '@app/services/courses.service';
 
 @Component({
   selector: 'app-courses-list',
@@ -13,6 +14,7 @@ export class CoursesListComponent {
 
   constructor(
     private router: Router,
+    private coursesService: CoursesService
   ) { }
 
   @Input() courses: Course[] = [];
@@ -43,6 +45,12 @@ export class CoursesListComponent {
 
   onSearch(value: string) {
     console.debug('onSearch not implemented with value:', value);
+    this.coursesService.filterCourses(value).subscribe(result => {
+      result.forEach(item => {
+        console.debug(`id = ${item.id}, title = ${item.title}`);
+      });
+      this.courses = result;
+    });
   }
 
   addNewCourse() {

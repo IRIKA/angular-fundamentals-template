@@ -74,7 +74,6 @@ export class CoursesStoreService {
         // Add your code here
         this.isLoading$$.next(true);
         this.coursesService.getAllAuthors().subscribe(authors => {
-            console.debug(`authors in getAllAuthors is ${authors}`);
             this.authors$$.next(authors);
             this.isLoading$$.next(false);
         });

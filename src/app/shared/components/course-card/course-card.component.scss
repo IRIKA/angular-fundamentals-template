@@ -41,15 +41,6 @@
       .course-card__buttons {
         display: flex;
         gap: 20px;
-
-        &-editable {
-          background: none;
-          border: none;
-          color: inherit;
-          cursor: pointer;
-          font-size: 2rem;
-          color: #007298;
-        }
       }
     }
   }

@@ -18,12 +18,12 @@
             </app-button>
             <div class="course-card__buttons">
                 <!--Enter your code here-->
-                <button class="course-card__buttons-editable" *ngIf="editable" (click)="deleteCourse(course)">
-                    <fa-icon [icon]="['fas', 'trash-can']"></fa-icon>
-                </button>
-                <button class="course-card__buttons-editable" *ngIf="editable" (click)="editCourse(course)">
-                    <fa-icon [icon]="['fas', 'pencil']"></fa-icon>
-                </button>
+                <app-button [buttonStyles]="editableButtonStyle" [iconName]="['fas', 'trash-can']" *ngIf="editable"
+                    (click)="deleteCourse(course)">
+                </app-button>
+                <app-button [buttonStyles]="editableButtonStyle" [iconName]="['fas', 'pencil']" *ngIf="editable"
+                    (click)="editCourse(course)">
+                </app-button>
             </div>
         </div>
     </div>

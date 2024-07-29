@@ -12,6 +12,14 @@ import { CoursesService } from '@app/services/courses.service';
 export class CourseCardComponent implements OnInit {
   authors = '';
 
+  editableButtonStyle = {
+    'background': 'none',
+    'border': 'none',
+    'color': '#007298',
+    'cursor': 'pointer',
+    'font-size': '2rem'
+  };
+
   constructor(private coursesService: CoursesService) { }
 
   @Input() course!: Course;

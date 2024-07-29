@@ -13,6 +13,5 @@ export class SearchComponent {
 
   searchAction(value: string) {
     this.search.emit(value);
-    console.debug('Search');
   }
 }

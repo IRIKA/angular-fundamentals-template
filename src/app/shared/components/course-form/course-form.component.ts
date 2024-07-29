@@ -7,10 +7,12 @@ import {
 } from '@angular/forms';
 import { FaIconLibrary } from '@fortawesome/angular-fontawesome';
 import { fas } from '@fortawesome/free-solid-svg-icons';
+import { CoursesService } from '@app/services/courses.service';
 import { CoursesStoreService } from '@app/services/courses-store.service';
 import { Author } from '@app/models/author.model';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { map, of, switchMap, tap } from 'rxjs';
+
 
 @Component({
   selector: 'app-course-form',
@@ -18,10 +20,13 @@ import { map, of, switchMap, tap } from 'rxjs';
   styleUrls: ['./course-form.component.scss'],
 })
 export class CourseFormComponent implements OnInit {
+
   createAuthorClicked = false;
 
   constructor(
     private route: ActivatedRoute,
+    private router: Router,
+    private coursesService: CoursesService,
     private coursesStoreService: CoursesStoreService,
     public fb: FormBuilder,
     public library: FaIconLibrary) {
@@ -58,6 +63,10 @@ export class CourseFormComponent implements OnInit {
       title: ['', [Validators.required, Validators.minLength(2)]],
       description: ['', [Validators.required, Validators.minLength(2)]],
       duration: ['', this.durationValidator],
+      author: this.fb.group({
+        id: new FormControl(),
+        name: new FormControl()
+      }),
       authors: this.fb.array([]),
       courseAuthors: this.fb.array([])
     });
@@ -182,13 +191,24 @@ export class CourseFormComponent implements OnInit {
     }
     const authorName = authorNameControl?.value;
     if (authorName && authorName.trim().length >= 2) {
-      const newauthorId = generateUUID();
-      const newAuthor = this.fb.group({
-        id: newauthorId,
-        name: authorName
+      this.coursesService.createAuthor(authorName).subscribe(result => {
+        console.debug(result);
+        if (result) {
+          const newAuthor = this.fb.group({
+            id: result.id,
+            name: result.name
+          });
+          this.authors.push(newAuthor);
+          this.courseForm.get('author.name')?.reset();
+        }
       });
-      this.authors.push(newAuthor);
-      this.courseForm.get('author.name')?.reset();
+      //const newauthorId = generateUUID();
+      // const newAuthor = this.fb.group({
+      //   id: newauthorId,
+      //   name: authorName
+      // });
+      // this.authors.push(newAuthor);
+      //this.courseForm.get('author.name')?.reset();
     }
     this.createAuthorClicked = false;
   }
@@ -204,11 +224,19 @@ export class CourseFormComponent implements OnInit {
     this.authors.push(author);
     this.courseAuthors.removeAt(index);
   }
+
+  goBack() {
+    console.debug("goBack");
+    this.router.navigate(['/courses', { goBack: true }]);
+  }
 }
 
-function generateUUID() {
-  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
-    var r = Math.random() * 16 | 0, v = c === 'x' ? r : (r & 0x3 | 0x8);
-    return v.toString(16);
-  });
-}
+
+
+
+// function generateUUID() {
+//   return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+//     var r = Math.random() * 16 | 0, v = c === 'x' ? r : (r & 0x3 | 0x8);
+//     return v.toString(16);
+//   });
+//}

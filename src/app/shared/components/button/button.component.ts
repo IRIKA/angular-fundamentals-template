@@ -8,6 +8,7 @@ import { fas, IconName, IconPrefix } from '@fortawesome/free-solid-svg-icons';
   styleUrls: ['./button.component.scss']
 })
 export class ButtonComponent {
+
   constructor(library: FaIconLibrary) {
     library.addIconPacks(fas);
   }
@@ -15,5 +16,6 @@ export class ButtonComponent {
   // Use the names for the inputs `buttonText` and `iconName`.
   @Input() buttonText = '';
   @Input() iconName!: [IconPrefix, IconName];
+  @Input() buttonStyles: { [key: string]: string } = {};
   @Input() disabled = false;
 }

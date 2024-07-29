@@ -49,7 +49,7 @@ export class CoursesService {
 
     filterCourses(value: string): Observable<Course[]> {
         // Add your code here
-        const params = { title: value, description: value, creationDate: value, duration: value };
+        const params = { title: value, description: value };
         return this.http.get<{ successful: boolean, result: Course[] }>(`${this.API_URL}/courses/filter`, { params })
             .pipe(map(({ result }) => result));
     }
