@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import {
   AbstractControl,
   FormArray,
@@ -11,7 +11,8 @@ import { CoursesService } from '@app/services/courses.service';
 import { CoursesStoreService } from '@app/services/courses-store.service';
 import { Author } from '@app/models/author.model';
 import { ActivatedRoute, Router } from '@angular/router';
-import { map, of, switchMap, tap } from 'rxjs';
+import { map, Observable, of, switchMap, tap } from 'rxjs';
+import { Course } from '@app/models/course.model';
 
 
 @Component({
@@ -20,8 +21,11 @@ import { map, of, switchMap, tap } from 'rxjs';
   styleUrls: ['./course-form.component.scss'],
 })
 export class CourseFormComponent implements OnInit {
-
   createAuthorClicked = false;
+  courseId: string = '';
+  creationMode = true;
+  courseForm!: FormGroup;
+  errorMessage: string = '';
 
   constructor(
     private route: ActivatedRoute,
@@ -43,8 +47,9 @@ export class CourseFormComponent implements OnInit {
       courseAuthors: new FormArray([])
     });
   }
-  courseForm!: FormGroup;
+
   // Use the names `title`, `description`, `author`, 'authors' (for authors list), `duration` for the form controls.
+
   createAuthorGroup(author: Author) {
     return this.fb.group({
       id: [author.id, Validators.required],
@@ -58,6 +63,14 @@ export class CourseFormComponent implements OnInit {
   }
 
   ngOnInit() {
+
+    this.route.queryParamMap.subscribe(params => {
+      console.debug(params);
+      const mode = params.get('mode');
+      console.debug(mode);
+      this.creationMode = mode == 'create';
+    });
+
     // Create initial structure for the form.
     this.courseForm = this.fb.group({
       title: ['', [Validators.required, Validators.minLength(2)]],
@@ -68,16 +81,16 @@ export class CourseFormComponent implements OnInit {
         name: new FormControl()
       }),
       authors: this.fb.array([]),
-      courseAuthors: this.fb.array([])
+      courseAuthors: this.fb.array([], Validators.required)
     });
 
     this.coursesStoreService.getAllAuthors();
-    const courseId = this.route.snapshot.paramMap.get('id');
+    this.courseId = this.route.snapshot.paramMap.get('id') ?? '';
 
     this.coursesStoreService.authors$.pipe(
       switchMap(authorsFromService => {
-        if (courseId) {
-          return this.coursesStoreService.getCourse(courseId).pipe(
+        if (this.courseId) {
+          return this.coursesStoreService.getCourse(this.courseId).pipe(
             tap(course => {
               if (course) {
                 this.courseForm.patchValue({
@@ -228,6 +241,45 @@ export class CourseFormComponent implements OnInit {
   goBack() {
     console.debug("goBack");
     this.router.navigate(['/courses', { goBack: true }]);
+  }
+
+  onSubmit() {
+    if (!this.courseForm.valid) {
+      this.errorMessage = 'Please correct the errors in the form.';
+      return;
+    }
+    const formValues = this.courseForm.value;
+    console.debug(formValues);
+    const authors: string[] = formValues.courseAuthors.map((author: any) => author.id);
+    const course: Course = {
+      id: this.courseId,
+      title: formValues.title,
+      description: formValues.description,
+      creationDate: '',
+      duration: Number(formValues.duration),
+      authors: authors
+    };
+
+    const handleCourseOperation = (operation: Observable<Course>) => {
+      operation.subscribe({
+        next: (course: Course) => {
+          console.debug(`Course ${this.creationMode ? 'created' : 'edited '} successfully:`, course);
+          this.goBack();
+        },
+        error: (error: any) => {
+          console.error('Error:', error);
+        },
+        complete: () => {
+          console.debug('Operation completed');
+        }
+      });
+    };
+
+    if (this.creationMode) {
+      handleCourseOperation(this.coursesService.createCourse(course));
+    } else {
+      handleCourseOperation(this.coursesService.editCourse(this.courseId, course));
+    }
   }
 }
 

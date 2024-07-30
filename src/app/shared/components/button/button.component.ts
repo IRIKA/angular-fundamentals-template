@@ -15,6 +15,7 @@ export class ButtonComponent {
 
   // Use the names for the inputs `buttonText` and `iconName`.
   @Input() buttonText = '';
+  @Input() type = 'button';
   @Input() iconName!: [IconPrefix, IconName];
   @Input() buttonStyles: { [key: string]: string } = {};
   @Input() disabled = false;

@@ -39,13 +39,16 @@ export class CoursesComponent {
 
   editCourse(course: Course) {
     console.debug('editCourse not implemented: ', course);
-    // this.router.navigate(['/edit', course.id]);
-    this.router.navigate(['/courses/edit', course.id]);
+    //this.router.navigate(['/courses/edit', course.id]);
+    this.router.navigate(['/courses/edit', course.id], { queryParams: { mode: 'edit' } });
+
     //return this.coursesStoreService.editCourse(course.id, course);
   }
 
-  deleteCourse(course: any) {
+  deleteCourse(course: Course) {
     console.debug('deleteCourse not implemented: ', course);
+    this.coursesStoreService.deleteCourse(course.id);
+    this.router.navigate(['/courses']);
   }
 
   onBack() {

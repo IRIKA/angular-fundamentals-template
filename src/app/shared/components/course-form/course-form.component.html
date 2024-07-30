@@ -1,6 +1,6 @@
 <!-- Replace ::text:: with your code -->
 <h2>Create / Edit Course</h2>
-<form [formGroup]="courseForm">
+<form [formGroup]="courseForm" (ngSubmit)="onSubmit()">
   <div class="app-plate course-plate">
     <div class="course">
       <h3>Main Info</h3>
@@ -82,11 +82,17 @@
 
     </div>
   </div>
+  <div *ngIf="errorMessage" class="error-message">
+    {{ errorMessage }}
+  </div>
   <div class="form__buttons">
     <div class="form__action">
       <app-button buttonText="Cancel" [buttonStyles]="{ 'width': '215px' }" [iconName]="['fas', 'xmark']"
         (click)="goBack()">Cancel</app-button>
-      <app-button buttonText="Create course" [iconName]="['fas', 'plus']"></app-button>
+      <app-button *ngIf="creationMode" type="submit" buttonText="Create course" [iconName]="['fas', 'plus']">
+      </app-button>
+      <app-button *ngIf="!creationMode" type="submit" buttonText="Edit course" [iconName]="['fas', 'pencil']">
+      </app-button>
     </div>
   </div>
 </form>
