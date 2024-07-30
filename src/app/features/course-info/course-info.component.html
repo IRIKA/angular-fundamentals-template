@@ -1,5 +1,4 @@
-<!-- Replace ::text:: with your code -->
-<ng-container *ngIf="course">
+<ng-container *ngIf="course" class="info-plate">
   <div class="title">{{ course.title }}</div>
   <div class="course-info">
     <div class="course-info__description" [innerHTML]="course.description"></div>
@@ -11,7 +10,7 @@
     </div>
   </div>
   <div class="navigation-block">
-    <!--Enter your code here-->
-    <app-button buttonText="Back" [iconName]="['fas', 'arrow-rotate-left']" (click)="goBack()"></app-button>
+    <app-button buttonText="Back" [buttonStyles]="backButtonStyle" [iconName]="['fas', 'arrow-rotate-left']"
+      (click)="goBack()"></app-button>
   </div>
 </ng-container>

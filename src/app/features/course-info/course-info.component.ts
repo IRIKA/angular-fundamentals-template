@@ -15,10 +15,14 @@ export class CourseInfoComponent implements OnInit {
     private router: Router,
     private coursesService: CoursesService
   ) { }
-  authors = '';
+  backButtonStyle = {
+    'width': '55%',
+    'margin-right': '120px'
+  };
 
-  // Use the names for the input `course`.
+  authors = '';
   course!: Course;
+
   @Output() back = new EventEmitter<void>();
 
   ngOnInit() {

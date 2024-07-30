@@ -3,6 +3,7 @@
 .title {
   font-size: 32px;
   font-weight: 900;
+  margin-left: 120px;
 }
 
 .course-info {
@@ -11,7 +12,7 @@
   border-radius: 4px;
   display: flex;
   justify-content: space-between;
-  margin: 32px 0;
+  margin: 32px auto;
   min-height: 170px;
   width: 80vw;
   background-color: $color-white;
@@ -32,7 +33,7 @@
   }
 }
 
-.navigation-block{
+.navigation-block {
   display: flex;
   justify-content: flex-end;
 }

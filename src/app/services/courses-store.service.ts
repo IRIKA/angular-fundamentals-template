@@ -22,7 +22,6 @@ export class CoursesStoreService {
     constructor(private coursesService: CoursesService) { }
 
     getAll() {
-        // Add your code here
         this.isLoading$$.next(true);
         this.coursesService.getAll().subscribe(courses => {
             console.debug(courses);
@@ -31,8 +30,7 @@ export class CoursesStoreService {
         });
     }
 
-    createCourse(course: Course) { // replace 'any' with the required interface
-        // Add your code here
+    createCourse(course: Course) {
         this.isLoading$$.next(true);
         this.coursesService.createCourse(course).subscribe(() => {
             this.getAll();
@@ -40,13 +38,11 @@ export class CoursesStoreService {
     }
 
     getCourse(id: string) {
-        // Add your code here
         this.isLoading$$.next(true);
         return this.coursesService.getCourse(id);
     }
 
-    editCourse(id: string, course: Course) { // replace 'any' with the required interface
-        // Add your code here
+    editCourse(id: string, course: Course) {
         this.isLoading$$.next(true);
         this.coursesService.editCourse(id, course).subscribe(() => {
             this.getAll();
@@ -54,7 +50,6 @@ export class CoursesStoreService {
     }
 
     deleteCourse(id: string) {
-        // Add your code here
         this.isLoading$$.next(true);
         this.coursesService.deleteCourse(id).subscribe(() => {
             this.getAll();
@@ -62,7 +57,6 @@ export class CoursesStoreService {
     }
 
     filterCourses(value: string) {
-        // Add your code here
         this.isLoading$$.next(true);
         this.coursesService.filterCourses(value).subscribe(courses => {
             this.courses$$.next(courses);
@@ -71,7 +65,6 @@ export class CoursesStoreService {
     }
 
     getAllAuthors() {
-        // Add your code here
         this.isLoading$$.next(true);
         this.coursesService.getAllAuthors().subscribe(authors => {
             this.authors$$.next(authors);
@@ -97,7 +90,6 @@ export class CoursesStoreService {
     }
 
     createAuthor(name: string) {
-        // Add your code here
         this.isLoading$$.next(true);
         this.coursesService.createAuthor(name).subscribe(() => {
             this.getAllAuthors();
@@ -105,7 +97,6 @@ export class CoursesStoreService {
     }
 
     getAuthorById(id: string) {
-        // Add your code here
         this.isLoading$$.next(true);
         return this.coursesService.getAuthorById(id);
     }

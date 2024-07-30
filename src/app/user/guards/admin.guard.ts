@@ -7,7 +7,6 @@ import { map, Observable } from 'rxjs';
     providedIn: 'root'
 })
 export class AdminGuard implements CanActivate {
-    // Add your code here
     constructor(private userStoreService: UserStoreService, private router: Router) { }
 
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean | UrlTree> {

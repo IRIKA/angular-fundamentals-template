@@ -5,7 +5,6 @@
       <div>
         <div class="form__control">
           <label for="email">Email</label>
-          <!--Use the name `email` for the form control.-->
           <input type="text" name="email" id="email" emailValidator #email="ngModel" ngModel required
             placeholder="Input text" (blur)="onInput('email')"
             [class.touched]="formSubmitted || startedTyping['email']" />
@@ -17,7 +16,6 @@
         </div>
         <div class="form__control">
           <label for="password">Password</label>
-          <!--Use the name `password` for the form control.-->
           <div class="input-wrapper">
             <input type="password" name="password" id="password" #password="ngModel" [(ngModel)]="passwordModel"
               required togglePassword placeholder="Input text" (blur)="onInput('password')"

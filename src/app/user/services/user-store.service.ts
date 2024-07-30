@@ -15,7 +15,6 @@ export class UserStoreService {
     constructor(private userService: UserService) { }
 
     getUser() {
-        // Add your code here
         this.userService.getUser().subscribe({
             next: user => {
                 console.debug(user);
@@ -32,12 +31,10 @@ export class UserStoreService {
     }
 
     get isAdmin() {
-        // Add your code here. Get isAdmin$$ value
         return this.isAdmin$$.getValue();
     }
 
     set isAdmin(value: boolean) {
-        // Add your code here. Change isAdmin$$ value
         this.isAdmin$$.next(value);
     }
 

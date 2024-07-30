@@ -1,5 +1,11 @@
 @import 'src/app/shared/styles/styles';
 
+.course-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
 .course-plate {
   min-height: 825px;
   min-width: 1104px;

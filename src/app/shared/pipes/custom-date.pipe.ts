@@ -5,7 +5,6 @@ import { Pipe, PipeTransform } from '@angular/core';
     name: 'customDate'
 })
 export class CustomDatePipe extends DatePipe implements PipeTransform {
-    // Add your code here
     constructor() {
         super('en-US');
     }

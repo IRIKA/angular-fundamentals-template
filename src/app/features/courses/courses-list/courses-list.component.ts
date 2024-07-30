@@ -55,7 +55,6 @@ export class CoursesListComponent {
 
   addNewCourse() {
     console.debug('addNewCourse not implemented');
-    // this.router.navigate(['/courses/add']);    
     this.router.navigate(['/courses/add'], { queryParams: { mode: 'create' } });
   }
 }

@@ -48,8 +48,6 @@ export class CourseFormComponent implements OnInit {
     });
   }
 
-  // Use the names `title`, `description`, `author`, 'authors' (for authors list), `duration` for the form controls.
-
   createAuthorGroup(author: Author) {
     return this.fb.group({
       id: [author.id, Validators.required],
@@ -71,7 +69,6 @@ export class CourseFormComponent implements OnInit {
       this.creationMode = mode == 'create';
     });
 
-    // Create initial structure for the form.
     this.courseForm = this.fb.group({
       title: ['', [Validators.required, Validators.minLength(2)]],
       description: ['', [Validators.required, Validators.minLength(2)]],
@@ -282,9 +279,6 @@ export class CourseFormComponent implements OnInit {
     }
   }
 }
-
-
-
 
 // function generateUUID() {
 //   return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {

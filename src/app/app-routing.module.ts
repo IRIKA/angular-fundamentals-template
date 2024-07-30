@@ -4,7 +4,6 @@ import { AuthorizedGuard } from './auth/guards/authorized.guard';
 import { NotAuthorizedGuard } from './auth/guards/not-authorized.guard';
 
 export const routes: Routes = [
-    /* Add your code here */
     {
         path: 'login',
         loadChildren: () => import('@shared/components/login-form/login-form.module').then(m => m.LoginFormModule),
