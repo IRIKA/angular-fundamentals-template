@@ -13,8 +13,6 @@ export class AppComponent implements OnInit {
   userName = 'Iryna Shyrshova';
   isLoggedIn = false;
   isCourses = true;
-  infoTitle = 'Your list is empty';
-  infoText = 'Please use "Add New Course" button to add  your first course';
   isRegistrationSelected: boolean = false;
 
   constructor(

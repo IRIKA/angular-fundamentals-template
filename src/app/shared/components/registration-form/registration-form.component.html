@@ -1,37 +1,41 @@
-<h2 class="text-align-center">Registration</h2>
-<div class="app-plate registration-plate">
-  <form class="registration-form" [formGroup]="registrationForm" (ngSubmit)="onSubmit()">
-    <div>
-      <div class="form__control">
-        <label for="name">Name</label>
-        <input type="text" id="name" formControlName="name"
-          [ngClass]="{'error': name?.invalid && (name?.dirty || name?.touched)}" placeholder="Input text" />
-        <span id="nameErrorMessage" class="text-danger" *ngIf="name?.invalid && (name?.dirty || name?.touched)">Name is
-          required and should not be less than 6 symbols.</span>
+<div class="page-container">
+  <h2 class="text-align-center">Registration</h2>
+  <div class="app-plate registration-plate">
+    <form class="registration-form" [formGroup]="registrationForm" (ngSubmit)="onSubmit()">
+      <div>
+        <div class="form__control">
+          <label for="name">Name</label>
+          <input type="text" id="name" formControlName="name"
+            [ngClass]="{'error': name?.invalid && (name?.dirty || name?.touched)}" placeholder="Input text" />
+          <span id="nameErrorMessage" class="text-danger" *ngIf="name?.invalid && (name?.dirty || name?.touched)">Name
+            is
+            required and should not be less than 6 symbols.</span>
+        </div>
+        <div class="form__control">
+          <label for="email">Email</label>
+          <input type="text" id="email" formControlName="email" emailValidator
+            [ngClass]="{'error': email?.invalid && (email?.dirty || email?.touched)}" placeholder="Input text" />
+          <span id="emailErrorMessage" class="text-danger"
+            *ngIf="email?.invalid && (email?.dirty || email?.touched)">Valid
+            Email is required.
+          </span>
+        </div>
+        <div class="form__control">
+          <label for="password">Password</label>
+          <input type="password" id="password" formControlName="password"
+            [ngClass]="{'error': password?.invalid && (password?.dirty || password?.touched)}"
+            placeholder="Input text" />
+          <span id="passwordErrorMessage" class="text-danger"
+            *ngIf="password?.invalid && (password?.dirty || password?.touched)">Password is required.</span>
+        </div>
       </div>
-      <div class="form__control">
-        <label for="email">Email</label>
-        <input type="text" id="email" formControlName="email" emailValidator
-          [ngClass]="{'error': email?.invalid && (email?.dirty || email?.touched)}" placeholder="Input text" />
-        <span id="emailErrorMessage" class="text-danger"
-          *ngIf="email?.invalid && (email?.dirty || email?.touched)">Valid
-          Email is required.
-        </span>
+      <div class="form__action">
+        <app-button type="submit" buttonText="Login" [iconName]="['fas', 'sign-in-alt']"
+          [disabled]="!registrationForm.valid"></app-button>
       </div>
-      <div class="form__control">
-        <label for="password">Password</label>
-        <input type="password" id="password" formControlName="password"
-          [ngClass]="{'error': password?.invalid && (password?.dirty || password?.touched)}" placeholder="Input text" />
-        <span id="passwordErrorMessage" class="text-danger"
-          *ngIf="password?.invalid && (password?.dirty || password?.touched)">Password is required.</span>
+      <div class="form__text">
+        If you have an account you may <strong class="cursor-pointer" (click)="onLoginSelected()">Login</strong>
       </div>
-    </div>
-    <div class="form__action">
-      <app-button type="submit" buttonText="Login" [iconName]="['fas', 'sign-in-alt']"
-        [disabled]="!registrationForm.valid"></app-button>
-    </div>
-    <div class="form__text">
-      If you have an account you may <strong class="cursor-pointer" (click)="onLoginSelected()">Login</strong>
-    </div>
-  </form>
+    </form>
+  </div>
 </div>

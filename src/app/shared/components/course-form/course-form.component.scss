@@ -70,3 +70,9 @@
   color: red;
   margin-top: 10px;
 }
+
+.edit-create-buttons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 20px;
+}

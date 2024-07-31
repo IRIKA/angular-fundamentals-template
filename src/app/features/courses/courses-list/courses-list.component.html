@@ -1,8 +1,14 @@
-<div class="search-container">
+<div *ngIf="isCourses; else infoComponent" class="search-container">
     <app-search placeholder="Search for courses..." (search)="onSearch($event)"></app-search>
     <app-button buttonText="Add new course" *ngIf="editable" [iconName]="['fas', 'plus']"
         (click)="addNewCourse()"></app-button>
 </div>
+
+<ng-template #infoComponent>
+    <app-info [title]="infoTitle" [text]="infoText">
+        <app-button buttonText="Add new course" [iconName]="['fas', 'plus']" (click)="addNewCourse()"></app-button>
+    </app-info>
+</ng-template>
 
 <!-- <div *ngIf="!showCourseInfo" class="course-list"> -->
 <div class="course-list">

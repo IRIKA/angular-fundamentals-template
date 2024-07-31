@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
 import { Course } from '@app/models/course.model';
 import { Router } from '@angular/router';
 import { CoursesService } from '@app/services/courses.service';
@@ -8,9 +8,12 @@ import { CoursesService } from '@app/services/courses.service';
   templateUrl: './courses-list.component.html',
   styleUrls: ['./courses-list.component.scss']
 })
-export class CoursesListComponent {
+export class CoursesListComponent implements OnChanges {
   // showCourseInfo = false;
   selectedCourse!: Course;
+  isCourses = false;
+  infoTitle = 'Your list is empty';
+  infoText = 'Please use "Add New Course" button to add  your first course';
 
   constructor(
     private router: Router,
@@ -23,6 +26,12 @@ export class CoursesListComponent {
   @Output() showCourse = new EventEmitter<Course>();
   @Output() editCourse = new EventEmitter<Course>();
   @Output() deleteCourse = new EventEmitter<Course>();
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['courses']) {
+      this.isCourses = this.courses.length > 0;
+    }
+  }
 
   onShowCourse(course: Course) {
     console.debug(`onShowCourse ${course.id}`);

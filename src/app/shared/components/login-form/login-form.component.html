@@ -1,41 +1,43 @@
-<h2 class="text-align-center">Login</h2>
-<div class="app-plate login-plate">
-  <form #loginForm="ngForm" (ngSubmit)="onSubmit(loginForm)">
-    <div class="login-form">
-      <div>
-        <div class="form__control">
-          <label for="email">Email</label>
-          <input type="text" name="email" id="email" emailValidator #email="ngModel" ngModel required
-            placeholder="Input text" (blur)="onInput('email')"
-            [class.touched]="formSubmitted || startedTyping['email']" />
-          <span id="emailErrorMessage" class="text-danger"
-            *ngIf="!email.valid && (formSubmitted || email.dirty || email.touched)">
-            <span *ngIf="email.errors?.['required']">Email is required.</span>
-            <span *ngIf="email.errors?.['email']">Valid Email is required.</span>
-          </span>
-        </div>
-        <div class="form__control">
-          <label for="password">Password</label>
-          <div class="input-wrapper">
-            <input type="password" name="password" id="password" #password="ngModel" [(ngModel)]="passwordModel"
-              required togglePassword placeholder="Input text" (blur)="onInput('password')"
-              [class.touched]="formSubmitted || startedTyping['password']" />
+<div class="page-container">
+  <h2 class="text-align-center">Login</h2>
+  <div class="app-plate login-plate">
+    <form #loginForm="ngForm" (ngSubmit)="onSubmit(loginForm)">
+      <div class="login-form">
+        <div>
+          <div class="form__control">
+            <label for="email">Email</label>
+            <input type="text" name="email" id="email" emailValidator #email="ngModel" ngModel required
+              placeholder="Input text" (blur)="onInput('email')"
+              [class.touched]="formSubmitted || startedTyping['email']" />
+            <span id="emailErrorMessage" class="text-danger"
+              *ngIf="!email.valid && (formSubmitted || email.dirty || email.touched)">
+              <span *ngIf="email.errors?.['required']">Email is required.</span>
+              <span *ngIf="email.errors?.['email']">Valid Email is required.</span>
+            </span>
           </div>
-          <span id="passwordErrorMessage" class="text-danger"
-            *ngIf="password.invalid && (formSubmitted || password.dirty || password.touched)" class="text-danger">
-            <span *ngIf="password.errors?.['required']">Password is required.</span>
-          </span>
+          <div class="form__control">
+            <label for="password">Password</label>
+            <div class="input-wrapper">
+              <input type="password" name="password" id="password" #password="ngModel" [(ngModel)]="passwordModel"
+                required togglePassword placeholder="Input text" (blur)="onInput('password')"
+                [class.touched]="formSubmitted || startedTyping['password']" />
+            </div>
+            <span id="passwordErrorMessage" class="text-danger"
+              *ngIf="password.invalid && (formSubmitted || password.dirty || password.touched)" class="text-danger">
+              <span *ngIf="password.errors?.['required']">Password is required.</span>
+            </span>
+          </div>
+        </div>
+        <div>
+          <div class="form__action">
+            <app-button type="submit" buttonText="Login" [iconName]="['fas', 'sign-in-alt']"></app-button>
+          </div>
+          <div class="form__text">
+            If you don't have an account you may <strong class="cursor-pointer"
+              (click)="onRegistrationSelected()">Registration</strong>
+          </div>
         </div>
       </div>
-      <div>
-        <div class="form__action">
-          <app-button type="submit" buttonText="Login" [iconName]="['fas', 'sign-in-alt']"></app-button>
-        </div>
-        <div class="form__text">
-          If you don't have an account you may <strong class="cursor-pointer"
-            (click)="onRegistrationSelected()">Registration</strong>
-        </div>
-      </div>
-    </div>
-  </form>
+    </form>
+  </div>
 </div>
