@@ -11,7 +11,6 @@ export class AdminGuard implements CanActivate {
 
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean | UrlTree> {
         console.debug('AdminGuard canActivate called, isAdmin$: ', this.userStoreService.isAdmin$);
-        this.userStoreService.getUser();
         if (this.userStoreService.isAdmin$ && typeof this.userStoreService.isAdmin$.pipe === 'function') {
             return this.userStoreService.isAdmin$.pipe(
                 map(isAdmin => isAdmin ? true : this.router.parseUrl('/courses'))
