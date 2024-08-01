@@ -8,6 +8,8 @@ import { CoursesComponent } from './courses.component';
 import { CourseFormComponent } from '@app/shared/components';
 import { CoursesListComponent } from './courses-list/courses-list.component';
 import { CourseInfoComponent } from '@features/course-info/course-info.component';
+import { CoursesService } from '@app/services/courses.service';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -21,7 +23,11 @@ import { CourseInfoComponent } from '@features/course-info/course-info.component
     ReactiveFormsModule,
     FontAwesomeModule,
     CoursesRoutingModule,
-    SharedModule
+    SharedModule,
+    HttpClientModule
+  ],
+  providers: [
+    CoursesService
   ]
 })
 export class CoursesModule { }

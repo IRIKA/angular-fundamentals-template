@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Author } from '@app/models/author.model';
 import { Course } from '@app/models/course.model';
-import { map, Observable } from 'rxjs';
+import { catchError, map, Observable, of } from 'rxjs';
 import { environment } from 'src/environments/environment';
 
 @Injectable({
@@ -50,7 +50,10 @@ export class CoursesService {
 
     getAllAuthors(): Observable<Author[]> {
         return this.http.get<{ successful: boolean, result: Author[] }>(`${this.API_URL}/authors/all`)
-            .pipe(map(({ result }) => result));
+            .pipe(
+                map(({ result }) => result),
+                catchError(() => of([]))
+            );
     }
 
     getAuthorsByCourse(course: Course): Observable<string> {
