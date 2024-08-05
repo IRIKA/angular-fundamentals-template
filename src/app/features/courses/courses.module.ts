@@ -10,6 +10,8 @@ import { CoursesListComponent } from './courses-list/courses-list.component';
 import { CourseInfoComponent } from '@features/course-info/course-info.component';
 import { CoursesService } from '@app/services/courses.service';
 import { HttpClientModule } from '@angular/common/http';
+import * as fromCourses from '@app/store/courses/courses.reducer';
+import { StoreModule } from "@ngrx/store";
 
 @NgModule({
   declarations: [
@@ -24,7 +26,11 @@ import { HttpClientModule } from '@angular/common/http';
     FontAwesomeModule,
     CoursesRoutingModule,
     SharedModule,
-    HttpClientModule
+    HttpClientModule,
+    StoreModule.forFeature(
+      fromCourses.coursesFeatureKey,
+      fromCourses.reducer
+    )
   ],
   providers: [
     CoursesService

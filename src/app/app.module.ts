@@ -12,6 +12,10 @@ import { CoursesStoreService } from '@app/services/courses-store.service';
 import { CoursesService } from '@app/services/courses.service';
 // import { CoursesListComponent } from './features/courses/courses-list/courses-list.component';
 import { TokenInterceptor } from './auth/interceptors/token.interceptor';
+import { StoreModule } from '@ngrx/store';
+import { EffectsModule } from '@ngrx/effects';
+import { CoursesModule } from './features/courses/courses.module';
+import { reducers, effects } from './store';
 
 @NgModule({
   declarations: [AppComponent], //CoursesComponent, CoursesListComponent, CourseInfoComponent
@@ -21,6 +25,9 @@ import { TokenInterceptor } from './auth/interceptors/token.interceptor';
     AppRoutingModule,
     SharedModule,
     FontAwesomeModule,
+    StoreModule.forRoot(reducers),
+    EffectsModule.forRoot(effects),
+    CoursesModule
   ],
   providers: [
     AuthorizedGuard,
