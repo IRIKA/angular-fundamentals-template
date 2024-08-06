@@ -1,8 +1,8 @@
-import { HttpClient } from '@angular/common/http';
+
 import { Injectable } from '@angular/core';
 import { Author } from '@app/models/author.model';
 import { Course } from '@app/models/course.model';
-import { BehaviorSubject, first, map, Observable, take, tap } from 'rxjs';
+import { BehaviorSubject, map, Observable, take, tap } from 'rxjs';
 import { CoursesService } from './courses.service';
 
 @Injectable({

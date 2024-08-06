@@ -13,6 +13,7 @@ import { Author } from '@app/models/author.model';
 import { ActivatedRoute, Router } from '@angular/router';
 import { map, Observable, of, switchMap, tap } from 'rxjs';
 import { Course } from '@app/models/course.model';
+import { CoursesStateFacade } from '@app/store/courses/courses.facade';
 
 
 @Component({
@@ -32,6 +33,7 @@ export class CourseFormComponent implements OnInit {
     private router: Router,
     private coursesService: CoursesService,
     private coursesStoreService: CoursesStoreService,
+    private coursesStateFacade: CoursesStateFacade,
     public fb: FormBuilder,
     public library: FaIconLibrary) {
     library.addIconPacks(fas);
@@ -87,7 +89,8 @@ export class CourseFormComponent implements OnInit {
     this.coursesStoreService.authors$.pipe(
       switchMap(authorsFromService => {
         if (this.courseId) {
-          return this.coursesStoreService.getCourse(this.courseId).pipe(
+          this.coursesStateFacade.getSingleCourse(this.courseId);
+          return this.coursesStateFacade.course$.pipe(
             tap(course => {
               if (course) {
                 this.courseForm.patchValue({
@@ -257,26 +260,38 @@ export class CourseFormComponent implements OnInit {
       authors: authors
     };
 
-    const handleCourseOperation = (operation: Observable<Course>) => {
-      operation.subscribe({
-        next: (course: Course) => {
-          console.debug(`Course ${this.creationMode ? 'created' : 'edited '} successfully:`, course);
-          this.goBack();
-        },
-        error: (error: any) => {
-          console.error('Error:', error);
-        },
-        complete: () => {
-          console.debug('Operation completed');
-        }
-      });
-    };
+    // const handleCourseOperation = (operation: Observable<Course>) => {
+    //   operation.subscribe({
+    //     next: (course: Course) => {
+    //       console.debug(`Course ${this.creationMode ? 'created' : 'edited '} successfully:`, course);
+    //       this.goBack();
+    //     },
+    //     error: (errorMessage: any) => {
+    //       console.error('Error:', errorMessage);
+    //     },
+    //     complete: () => {
+    //       console.debug('Operation completed');
+    //     }
+    //   });
+    // };
 
     if (this.creationMode) {
-      handleCourseOperation(this.coursesService.createCourse(course));
+      this.coursesStateFacade.createCourse(course);
     } else {
-      handleCourseOperation(this.coursesService.editCourse(this.courseId, course));
+      this.coursesStateFacade.editCourse(this.courseId, course);
     }
+
+    this.coursesStateFacade.allCourses$.subscribe(allCourses => {
+      if (allCourses) {
+        console.debug(`Course ${this.creationMode ? 'created' : 'edited '} successfully:`, course);
+      }
+    });
+
+    this.coursesStateFacade.errorMessage$.subscribe(errorMessage => {
+      if (errorMessage) {
+        console.error('Operation failed:', errorMessage);
+      }
+    });
   }
 }
 

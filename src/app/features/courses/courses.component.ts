@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Course } from '@app/models/course.model';
-import { CoursesStoreService } from '@app/services/courses-store.service';
+// import { CoursesStoreService } from '@app/services/courses-store.service';
 import { UserStoreService } from '@app/user/services/user-store.service';
 import { Observable } from 'rxjs';
+import { CoursesStateFacade } from '@app/store/courses/courses.facade';
 
 @Component({
   selector: 'app-courses',
@@ -17,7 +18,8 @@ export class CoursesComponent {
   constructor(
     private router: Router,
     private route: ActivatedRoute,
-    private coursesStoreService: CoursesStoreService,
+    //private coursesStoreService: CoursesStoreService,
+    private coursesStateFacade: CoursesStateFacade,
     public userStoreService: UserStoreService
   ) {
     this.route.params.subscribe(params => {
@@ -25,11 +27,11 @@ export class CoursesComponent {
         this.onBack();
       }
     });
-    this.courses$ = this.coursesStoreService.courses$;
+    this.courses$ = this.coursesStateFacade.allCourses$;
   }
 
   ngOnInit(): void {
-    this.coursesStoreService.getAll();
+    this.coursesStateFacade.getAllCourses();
     this.courses$.subscribe(courses => console.debug(courses));
   }
 
@@ -44,7 +46,7 @@ export class CoursesComponent {
 
   deleteCourse(course: Course) {
     console.debug('deleteCourse not implemented: ', course);
-    this.coursesStoreService.deleteCourse(course.id);
+    this.coursesStateFacade.deleteCourse(course.id);
     this.router.navigate(['/courses']);
   }
 

@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Author } from '@app/models/author.model';
 import { Course } from '@app/models/course.model';
-import { catchError, map, Observable, of } from 'rxjs';
+import { catchError, map, Observable, of, tap, throwError } from 'rxjs';
 import { environment } from 'src/environments/environment';
 
 @Injectable({
@@ -29,7 +29,26 @@ export class CoursesService {
 
     getCourse(id: string): Observable<Course> {
         return this.http.get<{ successful: boolean, result: Course }>(`${this.API_URL}/courses/${id}`)
-            .pipe(map(({ result }) => result));
+            .pipe(
+                tap(response => {
+                    // Логування відповіді для перевірки її структури
+                    console.debug('API Response:', response);
+                    if (response.successful) {
+                        console.debug('Course Result:', response.result);
+                    } else {
+                        console.error('API Response not successful:', response);
+                    }
+                }),
+                map(response => {
+                    console.debug(response.result);
+                    return response.result;
+                }),
+                catchError(error => {
+                    // Логування помилки, якщо щось пішло не так
+                    console.error('Error fetching course:', error);
+                    return throwError(() => new Error('Error fetching course'));
+                })
+            );
     }
 
     editCourse(id: string, course: Course): Observable<Course> {

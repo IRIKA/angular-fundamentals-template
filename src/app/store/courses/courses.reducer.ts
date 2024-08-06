@@ -42,6 +42,38 @@ export const coursesReducer = createReducer( // Add your code here
         ...state,
         isAllCoursesLoading: false,
         errorMessage: error
+    })),
+    on(CourseActions.requestSingleCourse, (state) => ({
+        ...state,
+        isSingleCourseLoading: true,
+        errorMessage: null
+    })),
+    on(CourseActions.requestSingleCourseSuccess, (state, { course }) => ({
+        ...state,
+        course,
+        isSingleCourseLoading: false,
+        errorMessage: null
+    })),
+    on(CourseActions.requestSingleCourseFail, (state, { error }) => ({
+        ...state,
+        isSingleCourseLoading: false,
+        errorMessage: error
+    })),
+    on(CourseActions.requestFilteredCourses, (state) => ({
+        ...state,
+        isSearchState: true,
+        errorMessage: null
+    })),
+    on(CourseActions.requestFilteredCoursesSuccess, (state, { courses }) => ({
+        ...state,
+        allCourses: courses,
+        isSearchState: false,
+        errorMessage: null
+    })),
+    on(CourseActions.requestFilteredCoursesFail, (state, { error }) => ({
+        ...state,
+        isSearchState: false,
+        errorMessage: error
     }))
 );
 

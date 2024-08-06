@@ -1,7 +1,9 @@
 import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
 import { Course } from '@app/models/course.model';
 import { Router } from '@angular/router';
-import { CoursesService } from '@app/services/courses.service';
+// import { CoursesService } from '@app/services/courses.service';
+import { CoursesStateFacade } from '@app/store/courses/courses.facade';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-courses-list',
@@ -14,11 +16,15 @@ export class CoursesListComponent implements OnChanges {
   isCourses = false;
   infoTitle = 'Your list is empty';
   infoText = 'Please use "Add New Course" button to add  your first course';
+  courses$: Observable<Course[]>;
 
   constructor(
     private router: Router,
-    private coursesService: CoursesService
-  ) { }
+    //private coursesService: CoursesService,
+    private coursesStateFacade: CoursesStateFacade
+  ) {
+    this.courses$ = this.coursesStateFacade.courses$;
+  }
 
   @Input() courses: Course[] = [];
   @Input() editable = false;
@@ -53,8 +59,9 @@ export class CoursesListComponent implements OnChanges {
   // }
 
   onSearch(value: string) {
-    console.debug('onSearch not implemented with value:', value);
-    this.coursesService.filterCourses(value).subscribe(result => {
+    console.debug('onSearch implemented with value:', value);
+    this.coursesStateFacade.getFilteredCourses(value);
+    this.coursesStateFacade.courses$.subscribe(result => {
       result.forEach(item => {
         console.debug(`id = ${item.id}, title = ${item.title}`);
       });
