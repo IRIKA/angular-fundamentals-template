@@ -26,8 +26,14 @@ export class CoursesEffects {
             ofType(CourseActions.requestAllCourses),
             mergeMap(() =>
                 this.coursesService.getAll().pipe(
-                    map(courses => CourseActions.requestAllCoursesSuccess({ courses })),
-                    catchError(error => of(CourseActions.requestAllCoursesFail({ error })))
+                    map(courses => {
+                        this.store.dispatch(CourseActions.requestAllCoursesSuccess({ courses }));
+                        return CourseActions.requestAllCoursesSuccess({ courses })
+                    }),
+                    catchError(error => {
+                        this.store.dispatch(CourseActions.requestAllCoursesFail({ error }));
+                        return of(CourseActions.requestAllCoursesFail({ error }));
+                    })
                 )
             )
         )
@@ -39,10 +45,21 @@ export class CoursesEffects {
             withLatestFrom(this.coursesStateFacade.allCourses$),
             map(([action, courses]) => {
                 if (!courses) {
-                    return CourseActions.requestFilteredCoursesSuccess({ courses: [] });
+                    this.store.dispatch(CourseActions.requestFilteredCoursesFail({ error: 'No courses available' }));
+                    return CourseActions.requestFilteredCoursesFail({ error: 'No courses available' });
                 }
-                const filteredCourses = courses.filter(course => course.title?.includes(action.title));
-                return CourseActions.requestFilteredCoursesSuccess({ courses: filteredCourses });
+                try {
+                    const filteredCourses = courses.filter(course => course.title?.includes(action.title));
+                    this.store.dispatch(CourseActions.requestFilteredCoursesSuccess({ courses: filteredCourses }));
+                    return CourseActions.requestFilteredCoursesSuccess({ courses: filteredCourses });
+                } catch (error) {
+                    this.store.dispatch(CourseActions.requestFilteredCoursesFail({ error: 'No courses available' }));
+                    return CourseActions.requestFilteredCoursesFail({ error });
+                }
+            }),
+            catchError(error => {
+                this.store.dispatch(CourseActions.requestFilteredCoursesFail({ error }));
+                return of(CourseActions.requestFilteredCoursesFail({ error }));
             })
         )
     );
@@ -52,8 +69,14 @@ export class CoursesEffects {
             ofType(CourseActions.requestSingleCourse),
             mergeMap(action =>
                 this.coursesService.getCourse(action.id).pipe(
-                    map(course => CourseActions.requestSingleCourseSuccess({ course })),
-                    catchError(error => of(CourseActions.requestSingleCourseFail({ error })))
+                    map(course => {
+                        this.store.dispatch(CourseActions.requestSingleCourseSuccess({ course }));
+                        return CourseActions.requestSingleCourseSuccess({ course })
+                    }),
+                    catchError(error => {
+                        this.store.dispatch(CourseActions.requestSingleCourseFail({ error }));
+                        return of(CourseActions.requestSingleCourseFail({ error }));
+                    })
                 )
             )
         )
@@ -64,8 +87,14 @@ export class CoursesEffects {
             ofType(CourseActions.requestCreateCourse),
             mergeMap(action =>
                 this.coursesService.createCourse(action.course).pipe(
-                    map(course => CourseActions.requestCreateCourseSuccess({ course })),
-                    catchError(error => of(CourseActions.requestCreateCourseFail({ error })))
+                    map(course => {
+                        this.store.dispatch(CourseActions.requestSingleCourseSuccess({ course }));
+                        return CourseActions.requestCreateCourseSuccess({ course })
+                    }),
+                    catchError(error => {
+                        this.store.dispatch(CourseActions.requestSingleCourseFail({ error }));
+                        return of(CourseActions.requestCreateCourseFail({ error }))
+                    })
                 )
             )
         )
@@ -76,8 +105,14 @@ export class CoursesEffects {
             ofType(CourseActions.requestEditCourse),
             mergeMap(action =>
                 this.coursesService.editCourse(action.id, action.course).pipe(
-                    map(() => CourseActions.requestEditCourseSuccess({ course: action.course })),
-                    catchError(error => of(CourseActions.requestEditCourseFail({ error })))
+                    map(() => {
+                        this.store.dispatch(CourseActions.requestEditCourseSuccess({ course: action.course }));
+                        return CourseActions.requestEditCourseSuccess({ course: action.course })
+                    }),
+                    catchError(error => {
+                        this.store.dispatch(CourseActions.requestEditCourseFail({ error }));
+                        return of(CourseActions.requestEditCourseFail({ error }))
+                    })
                 )
             )
         )
@@ -88,8 +123,14 @@ export class CoursesEffects {
             ofType(CourseActions.requestDeleteCourse),
             mergeMap(action =>
                 this.coursesService.deleteCourse(action.id).pipe(
-                    map(() => CourseActions.requestAllCourses()),
-                    catchError(error => of(CourseActions.requestDeleteCourseFail({ error })))
+                    map(() => {
+                        this.store.dispatch(CourseActions.requestAllCourses());
+                        return CourseActions.requestAllCourses()
+                    }),
+                    catchError(error => {
+                        this.store.dispatch(CourseActions.requestDeleteCourseFail({ error }));
+                        return of(CourseActions.requestDeleteCourseFail({ error }))
+                    })
                 )
             )
         )
