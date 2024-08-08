@@ -12,7 +12,7 @@ import { CoursesStateFacade } from '@app/store/courses/courses.facade';
   styleUrls: ['./courses.component.scss']
 })
 export class CoursesComponent {
-  courses$: Observable<Course[]>;
+  courses$: Observable<Course[] | null>;
   // @Input() isLoggedIn = false;
 
   constructor(
@@ -46,7 +46,9 @@ export class CoursesComponent {
 
   deleteCourse(course: Course) {
     console.debug('deleteCourse not implemented: ', course);
-    this.coursesStateFacade.deleteCourse(course.id);
+    if (course.id) {
+      this.coursesStateFacade.deleteCourse(course.id);
+    }
     this.router.navigate(['/courses']);
   }
 

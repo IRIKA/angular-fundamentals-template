@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
 import { Actions, ofType, createEffect } from '@ngrx/effects';
 import { of } from 'rxjs';
-import { catchError, map, mergeMap, withLatestFrom, switchMap } from 'rxjs/operators';
+import { catchError, map, mergeMap, withLatestFrom } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
 import { Router } from '@angular/router';
 import * as CourseActions from './courses.actions';
 import { CoursesService } from '../../services/courses.service';
 import { CoursesStateFacade } from '../../store/courses/courses.facade';
-import { State } from '../index';
+import { CoursesState } from './courses.reducer';
 
 @Injectable()
 export class CoursesEffects {
@@ -15,7 +15,7 @@ export class CoursesEffects {
         private actions$: Actions,
         private coursesService: CoursesService,
         private coursesStateFacade: CoursesStateFacade,
-        private store: Store<State>,
+        private store: Store<CoursesState>,
         private router: Router
     ) { }
 
@@ -38,7 +38,10 @@ export class CoursesEffects {
             ofType(CourseActions.requestFilteredCourses),
             withLatestFrom(this.coursesStateFacade.allCourses$),
             map(([action, courses]) => {
-                const filteredCourses = courses.filter(course => course.title.includes(action.title));
+                if (!courses) {
+                    return CourseActions.requestFilteredCoursesSuccess({ courses: [] });
+                }
+                const filteredCourses = courses.filter(course => course.title?.includes(action.title));
                 return CourseActions.requestFilteredCoursesSuccess({ courses: filteredCourses });
             })
         )

@@ -1,23 +1,23 @@
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { State } from '../index';
 import { Course } from '@app/models/course.model';
 import * as fromCourses from '@app/store/courses/courses.selectors';
 import * as CourseActions from '@app/store/courses/courses.actions';
+import { CoursesState } from './courses.reducer';
 
 @Injectable({
     providedIn: 'root'
 })
 export class CoursesStateFacade {
     // Add your code here
-    constructor(private store: Store<State>) { }
+    constructor(private store: Store<CoursesState>) { }
 
     isAllCoursesLoading$: Observable<boolean> = this.store.pipe(select(fromCourses.isAllCoursesLoadingSelector));
     isSingleCourseLoading$: Observable<boolean> = this.store.pipe(select(fromCourses.isSingleCourseLoadingSelector));
     isSearchingState$: Observable<boolean> = this.store.pipe(select(fromCourses.isSearchingStateSelector));
-    courses$: Observable<Course[]> = this.store.pipe(select(fromCourses.getCourses));
-    allCourses$: Observable<Course[]> = this.store.pipe(select(fromCourses.getAllCourses));
+    courses$: Observable<Course[] | null> = this.store.pipe(select(fromCourses.getCourses));
+    allCourses$: Observable<Course[] | null> = this.store.pipe(select(fromCourses.getAllCourses));
     course$: Observable<Course | null> = this.store.pipe(select(fromCourses.getCourse));
     errorMessage$: Observable<string | null> = this.store.pipe(select(fromCourses.getErrorMessage));
 
@@ -37,11 +37,11 @@ export class CoursesStateFacade {
         this.store.dispatch(CourseActions.requestCreateCourse({ course }));
     }
 
-    editCourse(id: string, course: Course) {
+    editCourse(course: Course, id: string | number) {
         this.store.dispatch(CourseActions.requestEditCourse({ id, course }));
     }
 
-    deleteCourse(id: string) {
+    deleteCourse(id: string | number) {
         this.store.dispatch(CourseActions.requestDeleteCourse({ id }));
     }
 }

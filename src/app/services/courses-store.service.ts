@@ -75,13 +75,17 @@ export class CoursesStoreService {
     getAuthorsByCourse(course: Course) {
         this.isLoading$$.next(true);
         this.authors$$.pipe(
-            map(authors =>
-                course.authors
-                    .map(authorId => authors.find(author => author.id === authorId))
-                    .filter((author): author is Author => Boolean(author))
-                    .map(author => author.name)
-                    .join(', ')
-            ),
+            map(authors => {
+                if (course.authors) {
+                    return course.authors
+                        .map(authorId => authors.find(author => author.id === authorId))
+                        .filter((author): author is Author => Boolean(author))
+                        .map(author => author.name)
+                        .join(', ')
+                } else {
+                    return ''; // Повертаємо пустий рядок, коли authors не існує
+                }
+            }),
             tap(() => this.isLoading$$.next(false)),
             take(1)
         ).subscribe(authorsNames => {

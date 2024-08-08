@@ -3,7 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Course } from '@app/models/course.model';
 import { CoursesService } from '@app/services/courses.service';
 import { CoursesStateFacade } from '@app/store/courses/courses.facade';
-import { catchError, of, Subscription, tap } from 'rxjs';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-course-info',
@@ -48,7 +48,7 @@ export class CourseInfoComponent implements OnInit, OnDestroy {
 
       this.coursesService.getAllAuthors().subscribe(allAuthors => {
         const courseAuthors = this.course.authors;
-        const authors = allAuthors.filter(author => courseAuthors.includes(author.id));
+        const authors = allAuthors.filter(author => courseAuthors?.includes(author.id));
         this.authors = authors.map(author => author.name).join(', ');
       });
       // this.coursesStateFacade.course$.pipe(

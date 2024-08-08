@@ -66,7 +66,7 @@ export const requestCreateCourseFail = createAction(
 // Actions for editing a course
 export const requestEditCourse = createAction(
     CoursesConstants.REQUEST_EDIT_COURSE,
-    props<{ id: string; course: Course }>()
+    props<{ id: string | number; course: Course }>()
 );
 
 export const requestEditCourseSuccess = createAction(
@@ -82,11 +82,12 @@ export const requestEditCourseFail = createAction(
 // Actions for deleting a course
 export const requestDeleteCourse = createAction(
     CoursesConstants.REQUEST_DELETE_COURSE,
-    props<{ id: string }>()
+    props<{ id: string | number }>()
 );
 
 export const requestDeleteCourseSuccess = createAction(
-    CoursesConstants.REQUEST_DELETE_COURSE_SUCCESS
+    CoursesConstants.REQUEST_DELETE_COURSE_SUCCESS,
+    props<{ id: string }>()
 );
 
 export const requestDeleteCourseFail = createAction(

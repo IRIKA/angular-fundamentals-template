@@ -16,7 +16,7 @@ export class CoursesListComponent implements OnChanges {
   isCourses = false;
   infoTitle = 'Your list is empty';
   infoText = 'Please use "Add New Course" button to add  your first course';
-  courses$: Observable<Course[]>;
+  courses$: Observable<Course[] | null>;
 
   constructor(
     private router: Router,
@@ -26,7 +26,7 @@ export class CoursesListComponent implements OnChanges {
     this.courses$ = this.coursesStateFacade.courses$;
   }
 
-  @Input() courses: Course[] = [];
+  @Input() courses: Course[] | null = [];
   @Input() editable = false;
 
   @Output() showCourse = new EventEmitter<Course>();
@@ -35,7 +35,7 @@ export class CoursesListComponent implements OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['courses']) {
-      this.isCourses = this.courses.length > 0;
+      this.isCourses = !this.courses ? false : this.courses.length > 0;
     }
   }
 
@@ -62,9 +62,11 @@ export class CoursesListComponent implements OnChanges {
     console.debug('onSearch implemented with value:', value);
     this.coursesStateFacade.getFilteredCourses(value);
     this.coursesStateFacade.courses$.subscribe(result => {
-      result.forEach(item => {
-        console.debug(`id = ${item.id}, title = ${item.title}`);
-      });
+      if (result) {
+        result.forEach(item => {
+          console.debug(`id = ${item.id}, title = ${item.title}`);
+        });
+      }
       this.courses = result;
     });
   }

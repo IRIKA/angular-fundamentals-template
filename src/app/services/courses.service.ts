@@ -51,12 +51,12 @@ export class CoursesService {
             );
     }
 
-    editCourse(id: string, course: Course): Observable<Course> {
+    editCourse(id: string | number, course: Course): Observable<Course> {
         return this.http.put<{ successful: boolean, result: Course }>(`${this.API_URL}/courses/${id}`, course)
             .pipe(map(({ result }) => result));
     }
 
-    deleteCourse(id: string): Observable<string> {
+    deleteCourse(id: string | number): Observable<string> {
         return this.http.delete<{ successful: boolean, result: string }>(`${this.API_URL}/courses/${id}`)
             .pipe(map(({ result }) => result));
     }
@@ -78,7 +78,7 @@ export class CoursesService {
     getAuthorsByCourse(course: Course): Observable<string> {
         return this.getAllAuthors().pipe(
             map(authors =>
-                course.authors
+                (course.authors ? course.authors : [])
                     .map(id => authors.find(author => author.id === id))
                     .filter((author): author is Author => Boolean(author))
                     .map(author => author.name)

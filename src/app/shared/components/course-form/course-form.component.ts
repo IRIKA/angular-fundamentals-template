@@ -99,14 +99,14 @@ export class CourseFormComponent implements OnInit {
                   duration: course.duration
                 });
 
-                const courseAuthorsArray = course.authors.map(authorId =>
+                const courseAuthorsArray = (course.authors ? course.authors : []).map(authorId =>
                   this.createCourseAuthorGroup(authorsFromService, authorId)
                 ).filter(group => group !== null) as FormGroup[];
 
                 this.courseForm.setControl('courseAuthors', this.fb.array(courseAuthorsArray));
               }
             }),
-            map(course => course ? authorsFromService.filter(author => !course.authors.includes(author.id)) : authorsFromService)
+            map(course => course ? authorsFromService.filter(author => !(course.authors ? course.authors : []).includes(author.id)) : authorsFromService)
           );
         } else {
           return of(authorsFromService);
@@ -278,7 +278,7 @@ export class CourseFormComponent implements OnInit {
     if (this.creationMode) {
       this.coursesStateFacade.createCourse(course);
     } else {
-      this.coursesStateFacade.editCourse(this.courseId, course);
+      this.coursesStateFacade.editCourse(course, this.courseId);
     }
 
     this.coursesStateFacade.allCourses$.subscribe(allCourses => {
